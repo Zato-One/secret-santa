@@ -2,9 +2,9 @@
 
 This document outlines the complete implementation plan for the Secret Santa web application. The project is a stateless, frontend-only application deployable to Vercel that generates encrypted Secret Santa assignments.
 
-**Current Phase**: Phase 1 - Foundation & Setup
-**Completed Steps**: 8 / 75
-**Overall Progress**: 11%
+**Current Phase**: Phase 2 - Main Page - Participant Management
+**Completed Steps**: 15 / 75
+**Overall Progress**: 20%
 
 ---
 
@@ -23,13 +23,13 @@ This document outlines the complete implementation plan for the Secret Santa web
 
 ## Phase 2: Main Page - Participant Management
 
-- [ ] **Step 9**: Create main page UI with title and introductory text
-- [ ] **Step 10**: Implement participant input field with add button
-- [ ] **Step 11**: Create participant list display component with remove functionality
-- [ ] **Step 12**: Add form validation (no empty names, no duplicate names)
-- [ ] **Step 13**: Implement state management for participants list
-- [ ] **Step 14**: Add visual feedback for adding/removing participants
-- [ ] **Step 15**: Create minimum participants validation (at least 3 participants required)
+- [x] **Step 9**: Create main page UI with title and introductory text
+- [x] **Step 10**: Implement participant input field with add button
+- [x] **Step 11**: Create participant list display component with remove functionality
+- [x] **Step 12**: Add form validation (no empty names, no duplicate names)
+- [x] **Step 13**: Implement state management for participants list
+- [x] **Step 14**: Add visual feedback for adding/removing participants
+- [x] **Step 15**: Create minimum participants validation (at least 3 participants required)
 
 ---
 
