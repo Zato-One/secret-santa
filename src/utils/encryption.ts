@@ -88,7 +88,7 @@ export async function encryptData(data: EncryptedAssignment): Promise<string> {
         iv: iv,
       },
       key,
-      dataBuffer
+      dataBuffer as unknown as BufferSource
     );
 
     const combined = new Uint8Array(iv.length + encryptedBuffer.byteLength);
@@ -113,8 +113,8 @@ export async function decryptData(
       throw new Error('Invalid encrypted data format');
     }
 
-    const iv = combinedArray.slice(0, IV_LENGTH);
-    const ciphertext = combinedArray.slice(IV_LENGTH);
+    const iv = new Uint8Array(combinedArray.slice(0, IV_LENGTH));
+    const ciphertext = new Uint8Array(combinedArray.slice(IV_LENGTH));
 
     const key = await deriveKey(ENCRYPTION_PASSPHRASE);
 
@@ -124,7 +124,7 @@ export async function decryptData(
         iv: iv,
       },
       key,
-      ciphertext
+      ciphertext as unknown as BufferSource
     );
 
     const jsonString = arrayBufferToString(decryptedBuffer);

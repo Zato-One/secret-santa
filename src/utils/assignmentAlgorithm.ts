@@ -40,10 +40,6 @@ function attemptGeneration(
   const assignedReceivers = new Set<string>();
   const assignedGivers = new Set<string>();
 
-  const preAssignmentMap = new Map(
-    preAssignments.map((pa) => [pa.giverId, pa.receiverId])
-  );
-
   for (const preAssign of preAssignments) {
     assignedReceivers.add(preAssign.receiverId);
     assignedGivers.add(preAssign.giverId);
