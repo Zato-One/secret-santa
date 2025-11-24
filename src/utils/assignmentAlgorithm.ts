@@ -51,6 +51,10 @@ function attemptGeneration(
     giverToReceiver.set(preAssign.giverId, preAssign.receiverId);
   }
 
+  const preAssignmentPairs = new Set(
+    preAssignments.map(pa => `${pa.giverId}->${pa.receiverId}`)
+  );
+
   const unassignedGivers = participants.filter(
     (p) => !assignedGivers.has(p.id)
   );
@@ -64,7 +68,11 @@ function attemptGeneration(
 
       const wouldCreateReciprocal =
         giverToReceiver.get(receiver.id) === giver.id;
-      if (wouldCreateReciprocal) return false;
+      if (wouldCreateReciprocal) {
+        const isReciprocalPreAssigned =
+          preAssignmentPairs.has(`${receiver.id}->${giver.id}`);
+        if (!isReciprocalPreAssigned) return false;
+      }
 
       return true;
     });
@@ -147,10 +155,39 @@ function validateAssignments(
     assignments.map((a) => [a.giverId, a.receiverId])
   );
 
+  const preAssignmentPairs = new Set(
+    preAssignments.map(pa => `${pa.giverId}->${pa.receiverId}`)
+  );
+
   for (const assignment of assignments) {
     const reverseAssignment = assignmentMap.get(assignment.receiverId);
     if (reverseAssignment === assignment.giverId) {
-      return `Reciprocal pair detected: ${assignment.giverName} ↔ ${assignment.receiverName}`;
+      const forwardPreAssigned = preAssignmentPairs.has(`${assignment.giverId}->${assignment.receiverId}`);
+      const reversePreAssigned = preAssignmentPairs.has(`${assignment.receiverId}->${assignment.giverId}`);
+
+      if (!forwardPreAssigned || !reversePreAssigned) {
+        return `Reciprocal pair detected: ${assignment.giverName} ↔ ${assignment.receiverName}`;
+      }
+    }
+  }
+
+  const visited = new Set<string>();
+  const checkForCycles = (startId: string, currentId: string, depth: number): boolean => {
+    if (depth > 2 && currentId === startId) return true;
+    if (depth > participants.length) return false;
+    if (visited.has(currentId) && currentId !== startId) return false;
+
+    visited.add(currentId);
+    const nextId = assignmentMap.get(currentId);
+    if (!nextId) return false;
+
+    return checkForCycles(startId, nextId, depth + 1);
+  };
+
+  for (const participant of participants) {
+    visited.clear();
+    if (checkForCycles(participant.id, participant.id, 0)) {
+      return `Circular assignment chain detected involving participant ID: ${participant.id}`;
     }
   }
 
