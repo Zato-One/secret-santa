@@ -55,6 +55,14 @@ function attemptGeneration(
     preAssignments.map(pa => `${pa.giverId}->${pa.receiverId}`)
   );
 
+  const hasBidirectionalPreAssignments = preAssignments.some(pa1 =>
+    preAssignments.some(pa2 =>
+      pa1.giverId === pa2.receiverId &&
+      pa1.receiverId === pa2.giverId &&
+      pa1.giverId !== pa2.giverId
+    )
+  );
+
   const unassignedGivers = participants.filter(
     (p) => !assignedGivers.has(p.id)
   );
@@ -71,7 +79,9 @@ function attemptGeneration(
       if (wouldCreateReciprocal) {
         const isReciprocalPreAssigned =
           preAssignmentPairs.has(`${receiver.id}->${giver.id}`);
-        if (!isReciprocalPreAssigned) return false;
+        if (!isReciprocalPreAssigned && !hasBidirectionalPreAssignments) {
+          return false;
+        }
       }
 
       return true;

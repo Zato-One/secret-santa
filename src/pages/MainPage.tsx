@@ -165,8 +165,14 @@ function MainPage() {
         return
       }
 
+      const sortedAssignments = [...result.assignments].sort((a, b) => {
+        const indexA = participants.findIndex(p => p.id === a.giverId)
+        const indexB = participants.findIndex(p => p.id === b.giverId)
+        return indexA - indexB
+      })
+
       const links: GeneratedLink[] = []
-      for (const assignment of result.assignments) {
+      for (const assignment of sortedAssignments) {
         const url = await generateRevealLink(
           assignment.giverName,
           assignment.receiverName,
