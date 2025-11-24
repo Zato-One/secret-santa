@@ -143,7 +143,7 @@ function RevealPage() {
         <div className="min-h-screen flex items-center justify-center p-8">
           <div className="max-w-2xl mx-auto text-center">
             <div className="text-6xl mb-8 animate-bounce">🎁</div>
-            <h1 className="text-5xl font-bold text-christmas-red-600 mb-6 break-all">
+            <h1 className="text-5xl font-bold text-christmas-red-600 mb-6 break-words">
               {replaceVariables(t.revealPage.firstConfirmation.question, { name: assignmentData.giverName })}
             </h1>
             <div className="bg-white/50 backdrop-blur-sm rounded-lg p-8 mb-8 border-2 border-christmas-gold-400">
@@ -181,7 +181,7 @@ function RevealPage() {
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 border-4 border-christmas-gold-400 relative animate-scale-in">
               <div className="text-6xl mb-6 text-center">⭐</div>
-              <h2 className="text-3xl font-bold text-christmas-red-600 text-center mb-6 break-all">
+              <h2 className="text-3xl font-bold text-christmas-red-600 text-center mb-6 break-words">
                 {replaceVariables(t.revealPage.secondConfirmation.question, { name: assignmentData.giverName })}
               </h2>
               <p className="text-gray-700 text-center mb-8">
@@ -190,7 +190,7 @@ function RevealPage() {
               <div className="flex flex-col gap-3">
                 <button
                   onClick={handleSecondConfirmation}
-                  className="w-full px-6 py-3 bg-christmas-red-600 text-white text-lg font-semibold rounded-lg hover:bg-christmas-red-700 transition-colors shadow-lg break-all"
+                  className="w-full px-6 py-3 bg-christmas-red-600 text-white text-lg font-semibold rounded-lg hover:bg-christmas-red-700 transition-colors shadow-lg break-words"
                 >
                   {replaceVariables(t.revealPage.secondConfirmation.yesButton, { name: assignmentData.giverName })}
                 </button>
@@ -230,7 +230,7 @@ function RevealPage() {
             </h1>
 
             <div className="bg-gradient-to-br from-christmas-red-50 to-christmas-green-50 rounded-2xl p-12 mb-8 border-4 border-christmas-gold-400 shadow-2xl animate-scale-in">
-              <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-christmas-green-700 mb-4 drop-shadow-lg break-all px-2">
+              <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-christmas-green-700 mb-4 drop-shadow-lg break-words px-2">
                 ⭐ {assignmentData.receiverName} ⭐
               </div>
             </div>
@@ -239,7 +239,7 @@ function RevealPage() {
               <p className="text-2xl font-semibold text-christmas-red-600 mb-4">
                 {t.revealPage.reveal.congratulations}
               </p>
-              <p className="text-lg text-christmas-green-800 leading-relaxed mb-4 break-all">
+              <p className="text-lg text-christmas-green-800 leading-relaxed mb-4 break-words">
                 {t.revealPage.reveal.messagePrefix} <strong>{assignmentData.receiverName}</strong>{t.revealPage.reveal.messageSuffix}
               </p>
               <p className="text-gray-700 leading-relaxed">
