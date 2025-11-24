@@ -21,6 +21,19 @@ When working on a project, Claude Code should reference the official documentati
 
 Always consult official documentation before implementing features or solving problems.
 
+## Project Architecture
+
+This is a GitHub template for planning and implementing projects with Claude Code using structured workflows.
+
+**Key Files:**
+- `INITIAL.md` - User's project requirements and brainstorming
+- `plan/PLAN.md` - Main plan with phases and numbered steps (checkboxes: `- [ ] **Step X**: Description`)
+- `plan/phases/PHASE_0X.md` - Optional detailed phase plans
+- `.claude/commands/` - Custom slash command definitions
+- `.mcp.json` - Serena MCP server configuration
+
+**Workflow:** Create INITIAL.md → `/plan` generates plan/PLAN.md → `/do-phase` or `/do-step` implements and updates checkboxes
+
 ## Development Workflow
 
 Projects are designed for incremental, iterative development. When adding features:
@@ -48,6 +61,20 @@ Projects are designed for incremental, iterative development. When adding featur
 - [x] **Step 10**: Add calculator display screen with retro styling
 
 This helps track project progress and demonstrates the incremental prototyping approach.
+
+## Custom Slash Commands
+
+**`/plan`** - Creates `plan/PLAN.md` from INITIAL.md with phases and steps (run first)
+
+**`/plan-phase <N>`** - Creates detailed `plan/phases/PHASE_0X.md` (optional, recommended for complex phases)
+
+**`/do-phase [N]`** - Implements all steps in phase N, updates checkboxes (finds next phase if N omitted)
+
+**`/do-step [N]`** - Implements step N, updates checkbox (finds next step if N omitted)
+
+**`/ask <question>`** - Answers questions without modifying files
+
+**Dependencies:** Run `/plan` first, then optionally `/plan-phase <N>` before implementing that phase
 
 ## Task Execution Guidelines
 
@@ -81,6 +108,10 @@ This helps track project progress and demonstrates the incremental prototyping a
 
 - **IMPORTANT**: Do not use env/properties files (.env, .secret, application.properties, *.properties and others) as source or context. Don't even search or work with these files. If I explicitly state that you should look at one of those files ask for confirmation and forget the content and context after this interaction.
 - You are possibly running in sandboxed environment. Do not attempt to run any root commands (like sudo) or access system files. Do not try to run commands that need elevated permissions (not even npm install). Instead, tell me what root commands to run and I will run them for you.
+
+## MCP Integration
+
+This repository includes Serena MCP server (`.mcp.json`) for semantic code operations. Tools prefixed `mcp__serena__*` enable symbol-level code understanding, intelligent search, and token-efficient codebase exploration. No setup required - works automatically with Claude Code.
 
 ## Documentation Guidelines
 
