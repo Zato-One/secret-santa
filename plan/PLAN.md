@@ -40,11 +40,11 @@ This plan outlines the complete implementation of a stateless Secret Santa web a
 
 ## Phase 3: Pre-Assignment Feature
 
-- [ ] **Step 13**: Create pre-assignment interface (modal or section)
-- [ ] **Step 14**: Build giver-receiver selector dropdowns
-- [ ] **Step 15**: Implement pre-assignment list display with remove option
-- [ ] **Step 16**: Add validation for pre-assignments (prevent cycles, conflicts)
-- [ ] **Step 17**: Store pre-assignments in state alongside participants
+- [x] **Step 13**: Create pre-assignment interface (modal or section)
+- [x] **Step 14**: Build giver-receiver selector dropdowns
+- [x] **Step 15**: Implement pre-assignment list display with remove option
+- [x] **Step 16**: Add validation for pre-assignments (prevent cycles, conflicts)
+- [x] **Step 17**: Store pre-assignments in state alongside participants
 
 ---
 
