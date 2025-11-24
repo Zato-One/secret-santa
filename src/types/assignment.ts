@@ -4,6 +4,7 @@ export interface Participant {
 }
 
 export interface PreAssignment {
+  id: string;
   giverId: string;
   receiverId: string;
 }
