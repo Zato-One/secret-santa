@@ -1,148 +1,230 @@
-# Phase 3: Participant Assignment Experience
+# Phase 3: Pre-Assignment Feature
 
-## Overview
+**Goal:** Build a pre-assignment system that allows users to manually specify giver→receiver pairs before generating the full Secret Santa assignments.
 
-This phase focuses on building the pre-assignment participant experience. It introduces the interface for entering participants, selecting assignment constraints, showing the pending assignment list, validating inputs, and persisting state between sessions.
-
-**Total Steps:** 5
-
-**Dependencies:** Completion of Phase 2
-
-**Completion Criteria:**
-- Steps 13–17 are fully implemented and verified
-- Pre-assignment page presents intuitive entry and selection controls
-- Participant list renders clearly with constraint indicators
-- Validation prevents incomplete or conflicting inputs
-- Participant data and constraints persist across sessions until assignments are generated
+**Context:** Phase 2 completed the participant management system. Users can now add/remove participants with validation for empty names and duplicates. Phase 3 adds the ability to pre-assign specific participants to give gifts to specific receivers, which the assignment algorithm will respect.
 
 ---
 
-## Step 13: Design Pre-Assignment Entry UI
+## Step 13: Create pre-assignment interface (modal or section)
 
-**Objective:** Provide a focused page section for entering participant names and preparation details before generating assignments.
+**Current State:**
+- MainPage has functional participant list management
+- No pre-assignment UI exists yet
 
-**Actions:**
-- Create a dedicated pre-assignment layout area that matches the project theme
-- Add clear labels and helpers describing how to add participants and prerequisites
-- Ensure primary controls are visually grouped for ease of scanning
-- Include affordances for starting assignment preparation and navigating back if needed
+**What to Build:**
+- Add a new section on MainPage below the participant list
+- Section should be titled "Pre-Assignments (Optional)"
+- Include explanatory text: "Specify who should give to whom. The algorithm will respect these assignments."
+- Section should only be visible when there are at least 2 participants
+- Use consistent Christmas theming with Phase 2
+- Keep the interface simple and intuitive
 
-**Expected Outputs:**
-- Pre-assignment page section with headline, helper text, and grouped controls
-- Visual hierarchy that highlights participant entry actions
-- Layout consistent with established design patterns
+**Technical Details:**
+- Position section between participant list and (future) "Generate Assignments" button
+- Use similar card styling as participant section (white background, shadow, rounded corners)
+- Conditionally render: `{participants.length >= 2 && <PreAssignmentSection />}`
+- Consider creating a separate component or keeping inline depending on complexity
 
-**Verification:**
-- Page renders the pre-assignment section without layout issues
-- Labels and helpers are readable on all supported viewports
-- Theming aligns with prior phases and remains accessible
-
----
-
-## Step 14: Implement Participant Selectors
-
-**Objective:** Add input controls for collecting participant names and constraint selections prior to assignment generation.
-
-**Actions:**
-- Provide fields for participant names with clear placeholder text
-- Add selector controls for constraint options such as partner exclusions or gifting rules
-- Ensure controls support keyboard and pointer interaction
-- Maintain validation-ready structures for later checks
-
-**Expected Outputs:**
-- Participant name inputs with supporting labels
-- Selector elements for constraint choices tied to each participant entry
-- Accessible focus order and control states
-
-**Verification:**
-- Inputs accept text and selectors register option changes
-- Controls are reachable via keyboard navigation
-- Screen reader labels describe each field and selector purpose
+**Success Criteria:**
+- Pre-assignment section appears when 2+ participants exist
+- Section hidden when fewer than 2 participants
+- Visual hierarchy clear with proper spacing from other sections
+- Christmas theme consistent with rest of page
 
 ---
 
-## Step 15: Display Participant List Before Assignment Generation
+## Step 14: Build giver-receiver selector dropdowns
 
-**Objective:** Render a preview list that shows entered participants and their current constraint selections before running assignments.
+**Dependencies:** Step 13 completed
 
-**Actions:**
-- Present entries in a structured list with names and associated constraints
-- Include indicators for missing data or unresolved constraints
-- Provide options to edit or remove entries prior to generation
-- Keep the list updated in real time as fields change
+**What to Build:**
+- Create form with two dropdown selectors:
+  - "Giver" dropdown: populated with all participant names
+  - "Receiver" dropdown: populated with all participant names
+- Add "Add Pre-Assignment" button next to dropdowns
+- Style dropdowns with Christmas colors matching input fields from Phase 2
+- Form should be inside the pre-assignment section
 
-**Expected Outputs:**
-- Visible list of participants reflecting live form state
-- Constraint badges or text descriptors aligned with each entry
-- Edit and remove affordances adjacent to the related participant
+**Technical Details:**
+- Use `<select>` elements with participant names as options
+- Each option should use participant.id as value, display participant.name
+- Dropdowns should have default "Select..." placeholder option
+- Form layout:
+  - Mobile: stack vertically
+  - Tablet/Desktop: display inline with button
+- Button styling should match "Add Participant" button from Phase 2
+- Handle form submission to add pre-assignment
 
-**Verification:**
-- Newly added participants appear immediately in the list
-- Updates to constraints or names reflect without page reload
-- Removing an entry consistently updates the displayed list
-
----
-
-## Step 16: Validate Participant Inputs
-
-**Objective:** Enforce rules that ensure the participant list is complete and conflict-free before assignments are generated.
-
-**Actions:**
-- Define validation states for required fields and invalid constraint combinations
-- Surface inline messages that explain how to resolve issues
-- Prevent progression when validation errors are present
-- Preserve user input while highlighting fields needing attention
-
-**Expected Outputs:**
-- Clear error states for empty names, duplicate entries, or incompatible constraints
-- Inline guidance describing the corrective action for each issue
-- Disabled progression controls when validation fails
-
-**Verification:**
-- Submitting with invalid data triggers visible, contextual feedback
-- Correction of errors clears messages without lingering artifacts
-- Valid entries enable progression to assignment generation
+**Success Criteria:**
+- Both dropdowns populate with current participant names
+- Dropdowns update when participants are added/removed
+- "Add Pre-Assignment" button triggers handler
+- Form visually consistent with participant input form
+- Responsive layout works on all screen sizes
 
 ---
 
-## Step 17: Store Participant State for Assignment Generation
+## Step 15: Implement pre-assignment list display with remove option
 
-**Objective:** Persist pre-assignment participant data and constraints so users can resume preparation without losing progress.
+**Dependencies:** Step 14 completed
 
-**Actions:**
-- Capture participant entries and constraint selections in durable storage appropriate for the client experience
-- Restore stored entries when returning to the pre-assignment flow
-- Keep state updates synchronized between storage and the on-screen list
-- Provide a controlled way to reset stored data when starting over
+**What to Build:**
+- Display list of pre-assignments below the selector form
+- Each pre-assignment shows: "[Giver] → [Receiver]" with remove button
+- Empty state message: "No pre-assignments yet"
+- Style pre-assignment items similar to participant list items
+- Remove button styled consistently (❌ emoji or icon)
 
-**Expected Outputs:**
-- Participant list and constraints remain available after page reloads
-- Restored entries populate the pre-assignment UI automatically
-- Reset action clears both the UI and stored state
+**Technical Details:**
+- Create TypeScript interface for PreAssignment:
+  - id: string (unique identifier)
+  - giverId: string (references Participant.id)
+  - receiverId: string (references Participant.id)
+- Store pre-assignments in state: `useState<PreAssignment[]>([])`
+- Display format: lookup participant names from IDs for display
+- Remove button filters out pre-assignment by ID
+- Consider using arrow emoji (→) or "gives to" text for clarity
 
-**Verification:**
-- Refreshing the page retains participants and constraint selections
-- Storage updates mirror list changes without desynchronization
-- Resetting state removes stored data and empties the pre-assignment list
-
----
-
-## Phase Completion Checklist
-
-Before marking this phase as complete, verify:
-
-- [ ] Pre-assignment entry UI displays with thematic styling
-- [ ] Participant selectors capture names and constraints accessibly
-- [ ] Participant list updates live and exposes edit or remove options
-- [ ] Validation blocks incomplete or conflicting participant setups
-- [ ] Participant and constraint data persist across sessions until assignments run
-- [ ] Reset mechanism clears stored participant state
-- [ ] All steps 13–17 are marked complete in the main plan
+**Success Criteria:**
+- Pre-assignments display clearly with giver and receiver names
+- List updates immediately when adding/removing
+- Empty state shows when no pre-assignments exist
+- Remove functionality works correctly
+- Visual styling matches participant list aesthetics
 
 ---
 
-## Notes
+## Step 16: Add validation for pre-assignments (prevent cycles, conflicts)
 
-- Keep interactions lightweight to encourage quick participant entry
-- Ensure accessibility considerations apply to all new controls and messages
-- Maintain consistency with typography, spacing, and theming established in prior phases
+**Dependencies:** Step 15 completed
+
+**What to Build:**
+- Implement comprehensive validation rules:
+  1. **Self-assignment**: Prevent participant from giving to themselves
+  2. **Duplicate pre-assignments**: Prevent same giver→receiver pair twice
+  3. **Giver already assigned**: Each giver can only be pre-assigned once
+  4. **Minimum participants**: Require at least 3 participants before generating assignments
+- Display validation errors below form with clear messages
+- Disable "Add Pre-Assignment" button when selections invalid
+- Add "Generate Assignments" button (disabled for now) that requires ≥3 participants
+
+**Technical Details:**
+- Validation checks to implement:
+  - `giverId === receiverId` → "A participant cannot give to themselves"
+  - Pre-assignment already exists → "This pre-assignment already exists"
+  - `preAssignments.some(pa => pa.giverId === selectedGiverId)` → "[Giver] is already pre-assigned"
+  - For generation button: `participants.length < 3` → "At least 3 participants required"
+- Error messages styled with Christmas red color
+- Clear errors when user changes selections
+- Add "Generate Assignments" button to bottom of pre-assignment section:
+  - Prominent styling (larger, gold accent)
+  - Disabled state with tooltip/message explaining requirements
+  - Will be functional in Phase 4
+
+**Success Criteria:**
+- Cannot add self-assignments (Alice → Alice)
+- Cannot add duplicate pre-assignments
+- Cannot pre-assign same giver twice
+- Clear error messages for each validation failure
+- "Generate Assignments" button visible but disabled with helpful message
+- Button shows "Need at least 3 participants" when under minimum
+- Validation errors clear when user fixes issues
+
+---
+
+## Step 17: Store pre-assignments in state alongside participants
+
+**Dependencies:** Step 16 completed
+
+**What to Build:**
+- Ensure pre-assignments persist in component state
+- Clean up pre-assignments when referenced participants are removed
+- Implement cascade deletion: removing a participant removes associated pre-assignments
+- Add visual indicators to participant list showing who has pre-assignments
+- Optional: Add badge/icon next to participants involved in pre-assignments
+
+**Technical Details:**
+- Modify `handleRemove` for participants to also filter out pre-assignments:
+  ```typescript
+  const handleRemoveParticipant = (id: string) => {
+    setParticipants(participants.filter(p => p.id !== id))
+    setPreAssignments(preAssignments.filter(
+      pa => pa.giverId !== id && pa.receiverId !== id
+    ))
+  }
+  ```
+- Consider adding visual indicators:
+  - Small badge next to participant name: "🎯 Pre-assigned as giver"
+  - Or icon showing they're involved in pre-assignments
+- State structure should be clean and type-safe
+
+**Success Criteria:**
+- Pre-assignments stored in state correctly
+- Removing a participant automatically removes their pre-assignments
+- No orphaned pre-assignments (referencing deleted participants)
+- State updates are predictable and type-safe
+- Optional visual indicators enhance user understanding
+
+---
+
+## Phase 3 Completion Checklist
+
+After implementing all steps, verify:
+- [ ] Pre-assignment section appears when 2+ participants exist
+- [ ] Can select giver and receiver from dropdowns
+- [ ] Can add pre-assignments showing "Giver → Receiver"
+- [ ] Can remove pre-assignments individually
+- [ ] Cannot add self-assignments
+- [ ] Cannot add duplicate pre-assignments
+- [ ] Cannot pre-assign same giver twice
+- [ ] "Generate Assignments" button visible but disabled
+- [ ] Button requires at least 3 participants
+- [ ] Removing participant removes their pre-assignments
+- [ ] UI maintains Christmas theme throughout
+- [ ] Responsive on mobile, tablet, desktop
+- [ ] All validation errors display clearly
+
+---
+
+## Notes for Implementation
+
+**State Structure:**
+Pre-assignments reference participants by ID, not name. This ensures data consistency when participant names are involved in pre-assignments.
+
+**Type Definitions:**
+Add to `src/types/index.ts`:
+```typescript
+export interface PreAssignment {
+  id: string
+  giverId: string
+  receiverId: string
+}
+```
+
+**Component Organization:**
+Phase 3 adds significant complexity. Consider:
+- Keeping all logic in MainPage for now (manageable with good organization)
+- Or extracting `PreAssignmentSection` component if file becomes too large
+- Remember: no file should exceed 500 lines (per CLAUDE.md)
+
+**Testing Considerations:**
+Manually test with:
+- 0-2 participants (section hidden)
+- 3+ participants (section visible, button enabled)
+- Adding valid pre-assignments
+- Attempting invalid pre-assignments (self, duplicate, double-giver)
+- Removing participants with pre-assignments (cascade deletion)
+- Various combinations of pre-assignments
+
+**Algorithm Preparation:**
+Phase 3 sets up data structures for Phase 4. The assignment algorithm will:
+- Respect all pre-assignments as fixed constraints
+- Generate random assignments for remaining participants
+- Ensure no reciprocal pairs among non-pre-assigned participants
+
+**Minimum Participant Rationale:**
+Secret Santa requires at least 3 people because:
+- 1 person: cannot give to themselves
+- 2 people: creates reciprocal pair (A→B, B→A) which violates no-reciprocal rule
+- 3+ people: enables valid non-reciprocal cycles (A→B→C→A)
