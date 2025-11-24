@@ -169,6 +169,14 @@ function validateAssignments(
     preAssignments.map(pa => `${pa.giverId}->${pa.receiverId}`)
   );
 
+  const hasBidirectionalPreAssignments = preAssignments.some(pa1 =>
+    preAssignments.some(pa2 =>
+      pa1.giverId === pa2.receiverId &&
+      pa1.receiverId === pa2.giverId &&
+      pa1.giverId !== pa2.giverId
+    )
+  );
+
   for (const assignment of assignments) {
     const reverseAssignment = assignmentMap.get(assignment.receiverId);
     if (reverseAssignment === assignment.giverId) {
@@ -176,7 +184,9 @@ function validateAssignments(
       const reversePreAssigned = preAssignmentPairs.has(`${assignment.receiverId}->${assignment.giverId}`);
 
       if (!forwardPreAssigned || !reversePreAssigned) {
-        return `Reciprocal pair detected: ${assignment.giverName} ↔ ${assignment.receiverName}`;
+        if (!hasBidirectionalPreAssignments) {
+          return `Reciprocal pair detected: ${assignment.giverName} ↔ ${assignment.receiverName}`;
+        }
       }
     }
   }
