@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-christmas-red-50: #fef2f2;
+  --color-christmas-red-100: #fee2e2;
+  --color-christmas-red-200: #fecaca;
+  --color-christmas-red-300: #fca5a5;
+  --color-christmas-red-400: #f87171;
+  --color-christmas-red-500: #ef4444;
+  --color-christmas-red-600: #dc2626;
+  --color-christmas-red-700: #b91c1c;
+  --color-christmas-red-800: #991b1b;
+  --color-christmas-red-900: #7f1d1d;
+
+  --color-christmas-green-50: #f0fdf4;
+  --color-christmas-green-100: #dcfce7;
+  --color-christmas-green-200: #bbf7d0;
+  --color-christmas-green-300: #86efac;
+  --color-christmas-green-400: #4ade80;
+  --color-christmas-green-500: #22c55e;
+  --color-christmas-green-600: #16a34a;
+  --color-christmas-green-700: #15803d;
+  --color-christmas-green-800: #166534;
+  --color-christmas-green-900: #14532d;
+
+  --color-christmas-gold-50: #fefce8;
+  --color-christmas-gold-100: #fef9c3;
+  --color-christmas-gold-200: #fef08a;
+  --color-christmas-gold-300: #fde047;
+  --color-christmas-gold-400: #facc15;
+  --color-christmas-gold-500: #eab308;
+  --color-christmas-gold-600: #ca8a04;
+  --color-christmas-gold-700: #a16207;
+  --color-christmas-gold-800: #854d0e;
+  --color-christmas-gold-900: #713f12;
+
+  --color-snow-50: #ffffff;
+  --color-snow-100: #fafafa;
+  --color-snow-200: #f5f5f5;
+  --color-snow-300: #f0f0f0;
+  --color-snow-400: #e5e5e5;
+  --color-snow-500: #d4d4d4;
+  --color-snow-600: #a3a3a3;
+  --color-snow-700: #737373;
+  --color-snow-800: #525252;
+  --color-snow-900: #404040;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
