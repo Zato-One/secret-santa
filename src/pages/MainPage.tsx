@@ -1,6 +1,9 @@
 import { useState, FormEvent } from 'react'
 import { Layout } from '@/components'
 import { Participant, PreAssignment } from '@/types'
+import { generateAssignments } from '@/utils/assignmentAlgorithm'
+import { generateRevealLink } from '@/utils/encryption'
+import type { GeneratedLink } from '@/types/assignment'
 
 function MainPage() {
   const [participants, setParticipants] = useState<Participant[]>([])
@@ -10,6 +13,11 @@ function MainPage() {
   const [selectedGiverId, setSelectedGiverId] = useState('')
   const [selectedReceiverId, setSelectedReceiverId] = useState('')
   const [preAssignmentError, setPreAssignmentError] = useState('')
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [generatedLinks, setGeneratedLinks] = useState<GeneratedLink[]>([])
+  const [generationError, setGenerationError] = useState('')
+  const [copiedLinkId, setCopiedLinkId] = useState<string | null>(null)
+  const [copiedAll, setCopiedAll] = useState(false)
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -114,6 +122,68 @@ function MainPage() {
 
   const isParticipantPreAssigned = (id: string) => {
     return preAssignments.some(pa => pa.giverId === id || pa.receiverId === id)
+  }
+
+  const handleGenerateAssignments = async () => {
+    setIsGenerating(true)
+    setGenerationError('')
+    setGeneratedLinks([])
+
+    try {
+      const result = generateAssignments(participants, preAssignments)
+
+      if (!result.success) {
+        setGenerationError(result.error || 'Failed to generate assignments')
+        setIsGenerating(false)
+        return
+      }
+
+      const links: GeneratedLink[] = []
+      for (const assignment of result.assignments) {
+        const url = await generateRevealLink(
+          assignment.giverName,
+          assignment.receiverName,
+          'en'
+        )
+        links.push({
+          participantName: assignment.giverName,
+          revealUrl: url,
+        })
+      }
+
+      setGeneratedLinks(links)
+    } catch (err) {
+      setGenerationError('An error occurred while generating links. Please try again.')
+      console.error('Generation error:', err)
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
+  const handleCopyLink = async (url: string, participantId: string) => {
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopiedLinkId(participantId)
+      setTimeout(() => setCopiedLinkId(null), 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
+
+  const handleCopyAllLinks = async () => {
+    const formattedText = generatedLinks
+      .map((link) => `${link.participantName}: ${link.revealUrl}`)
+      .join('\n\n')
+
+    const message = `Secret Santa Assignments\n\n${formattedText}\n\nShare each link only with the corresponding participant!`
+
+    try {
+      await navigator.clipboard.writeText(message)
+      setCopiedAll(true)
+      setTimeout(() => setCopiedAll(false), 2000)
+    } catch (err) {
+      console.error('Failed to copy all:', err)
+    }
   }
 
   return (
@@ -310,13 +380,96 @@ function MainPage() {
 
                 <div className="mt-8 pt-6 border-t border-snow-200">
                   <button
+                    onClick={handleGenerateAssignments}
                     className="w-full px-8 py-4 bg-christmas-gold-500 text-white font-bold text-lg rounded-lg hover:bg-christmas-gold-600 active:bg-christmas-gold-700 transition-colors shadow-lg hover:shadow-xl disabled:bg-snow-300 disabled:cursor-not-allowed disabled:text-snow-500"
-                    disabled={participants.length < 3}
+                    disabled={participants.length < 3 || isGenerating}
                   >
-                    {participants.length < 3
-                      ? `Need at least 3 participants (currently ${participants.length})`
-                      : 'Generate Assignments'}
+                    {isGenerating ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="animate-spin">🎄</span>
+                        Generating...
+                      </span>
+                    ) : participants.length < 3 ? (
+                      `Need at least 3 participants (currently ${participants.length})`
+                    ) : (
+                      '🎅 Generate Secret Santa Assignments'
+                    )}
                   </button>
+                  {generationError && (
+                    <p className="text-christmas-red-600 text-center mt-4 font-medium">
+                      {generationError}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {generatedLinks.length > 0 && (
+            <section className="mb-8">
+              <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
+                <h2 className="text-2xl font-bold text-christmas-green-700 mb-4 text-center">
+                  🎉 Your Secret Santa Assignments Are Ready! 🎉
+                </h2>
+                <p className="text-center text-snow-600 mb-6">
+                  Share these links with each participant. Each link reveals only that person's assignment.
+                </p>
+
+                <div className="space-y-3 mb-6">
+                  {generatedLinks.map((link, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-snow-50 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow gap-3"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-christmas-green-800 mb-1">
+                          {link.participantName}
+                        </p>
+                        <p className="text-sm text-snow-600 truncate font-mono">
+                          {link.revealUrl}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleCopyLink(link.revealUrl, link.participantName)}
+                        className="flex items-center gap-2 px-4 py-2 bg-christmas-green-600 text-white rounded-lg hover:bg-christmas-green-700 transition-colors shadow-md hover:shadow-lg whitespace-nowrap"
+                        aria-label={`Copy link for ${link.participantName}`}
+                      >
+                        {copiedLinkId === link.participantName ? (
+                          <>
+                            <span>✓</span>
+                            <span>Copied!</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>📋</span>
+                            <span>Copy Link</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-6 border-t border-snow-200">
+                  <button
+                    onClick={handleCopyAllLinks}
+                    className="w-full px-8 py-4 bg-christmas-red-600 text-white font-bold text-lg rounded-lg hover:bg-christmas-red-700 active:bg-christmas-red-800 transition-colors shadow-lg hover:shadow-xl"
+                  >
+                    {copiedAll ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <span>✓</span>
+                        All Links Copied!
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        <span>📋</span>
+                        Copy All Links
+                      </span>
+                    )}
+                  </button>
+                  <p className="text-center text-sm text-snow-600 mt-3">
+                    All links copied! You can now paste them into your messaging app.
+                  </p>
                 </div>
               </div>
             </section>
