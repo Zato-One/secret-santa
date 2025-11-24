@@ -158,14 +158,14 @@ This plan outlines the complete implementation of a stateless Secret Santa web a
 
 ## Phase 14: Multi-Language Support
 
-- [ ] **Step 76**: Design translation structure and create language constant files
-- [ ] **Step 77**: Implement language selector component on main page
-- [ ] **Step 78**: Add translations for 9 languages (Czech + 8 common languages)
-- [ ] **Step 79**: Update encryption to include language code in URL
-- [ ] **Step 80**: Update decryption to extract language code
-- [ ] **Step 81**: Implement language-aware text rendering on reveal page
-- [ ] **Step 82**: Test all languages for completeness and accuracy
-- [ ] **Step 83**: Verify language switching updates all UI elements correctly
+- [x] **Step 76**: Design translation structure and create language constant files
+- [x] **Step 77**: Implement language selector component on main page
+- [x] **Step 78**: Add translations for 9 languages (Czech + 8 common languages)
+- [x] **Step 79**: Update encryption to include language code in URL
+- [x] **Step 80**: Update decryption to extract language code
+- [x] **Step 81**: Implement language-aware text rendering on reveal page
+- [x] **Step 82**: Test all languages for completeness and accuracy
+- [x] **Step 83**: Verify language switching updates all UI elements correctly
 
 ---
 

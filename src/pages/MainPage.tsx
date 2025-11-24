@@ -1,11 +1,19 @@
 import { useState, FormEvent, useRef, useEffect } from 'react'
-import { Layout } from '@/components'
+import { Layout, LanguageSelector } from '@/components'
 import { Participant, PreAssignment } from '@/types'
 import { generateAssignments } from '@/utils/assignmentAlgorithm'
 import { generateRevealLink } from '@/utils/encryption'
 import type { GeneratedLink } from '@/types/assignment'
+import { getTranslations, replaceVariables, DEFAULT_LANGUAGE, type LanguageCode } from '@/i18n'
+
+const LANGUAGE_STORAGE_KEY = 'secretSantaLanguage'
 
 function MainPage() {
+  const [language, setLanguage] = useState<LanguageCode>(() => {
+    const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY)
+    return (stored as LanguageCode) || DEFAULT_LANGUAGE
+  })
+
   const [participants, setParticipants] = useState<Participant[]>([])
   const [inputName, setInputName] = useState('')
   const [error, setError] = useState('')
@@ -20,6 +28,11 @@ function MainPage() {
   const [copiedAll, setCopiedAll] = useState(false)
 
   const resultsRef = useRef<HTMLElement>(null)
+  const t = getTranslations(language)
+
+  useEffect(() => {
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
+  }, [language])
 
   useEffect(() => {
     if (generatedLinks.length > 0 && resultsRef.current) {
@@ -27,18 +40,22 @@ function MainPage() {
     }
   }, [generatedLinks.length])
 
+  const handleLanguageChange = (newLanguage: LanguageCode) => {
+    setLanguage(newLanguage)
+  }
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
     const trimmedName = inputName.trim()
 
     if (!trimmedName) {
-      setError('Please enter a name')
+      setError(t.mainPage.errors.emptyName)
       return
     }
 
     if (trimmedName.length > 50) {
-      setError('Name is too long (maximum 50 characters)')
+      setError(t.mainPage.errors.nameTooLong)
       return
     }
 
@@ -47,7 +64,7 @@ function MainPage() {
     )
 
     if (isDuplicate) {
-      setError('This participant already exists')
+      setError(t.mainPage.errors.duplicateName)
       return
     }
 
@@ -81,7 +98,7 @@ function MainPage() {
     }
 
     if (selectedGiverId === selectedReceiverId) {
-      setPreAssignmentError('A participant cannot give to themselves')
+      setPreAssignmentError(t.mainPage.errors.selfAssignment)
       return
     }
 
@@ -89,7 +106,7 @@ function MainPage() {
       pa => pa.giverId === selectedGiverId && pa.receiverId === selectedReceiverId
     )
     if (duplicateExists) {
-      setPreAssignmentError('This pre-assignment already exists')
+      setPreAssignmentError(t.mainPage.errors.duplicatePreAssignment)
       return
     }
 
@@ -98,7 +115,7 @@ function MainPage() {
     )
     if (giverAlreadyAssigned) {
       const giverName = getParticipantName(selectedGiverId)
-      setPreAssignmentError(`${giverName} is already pre-assigned as a giver`)
+      setPreAssignmentError(replaceVariables(t.mainPage.errors.giverAlreadyAssigned, { name: giverName }))
       return
     }
 
@@ -111,7 +128,7 @@ function MainPage() {
       )
       if (!isReciprocalPair) {
         const receiverName = getParticipantName(selectedReceiverId)
-        setPreAssignmentError(`${receiverName} is already pre-assigned as a receiver (only reciprocal pairs are allowed)`)
+        setPreAssignmentError(replaceVariables(t.mainPage.errors.receiverAlreadyAssigned, { name: receiverName }))
         return
       }
     }
@@ -160,7 +177,7 @@ function MainPage() {
       const result = generateAssignments(participants, preAssignments)
 
       if (!result.success) {
-        setGenerationError(result.error || 'Failed to generate assignments')
+        setGenerationError(result.error || t.mainPage.errors.generationFailed)
         setIsGenerating(false)
         return
       }
@@ -176,7 +193,7 @@ function MainPage() {
         const url = await generateRevealLink(
           assignment.giverName,
           assignment.receiverName,
-          'en'
+          language
         )
         links.push({
           participantName: assignment.giverName,
@@ -186,7 +203,7 @@ function MainPage() {
 
       setGeneratedLinks(links)
     } catch (err) {
-      setGenerationError('An error occurred while generating links. Please try again.')
+      setGenerationError(t.mainPage.errors.generationFailed)
       console.error('Generation error:', err)
     } finally {
       setIsGenerating(false)
@@ -208,7 +225,7 @@ function MainPage() {
       .map((link) => `${link.participantName}: ${link.revealUrl}`)
       .join('\n\n')
 
-    const message = `Secret Santa Assignments\n\n${formattedText}\n\nShare each link only with the corresponding participant!`
+    const message = `${t.common.secretSanta}\n\n${formattedText}\n\n${t.mainPage.results.description}`
 
     try {
       await navigator.clipboard.writeText(message)
@@ -224,11 +241,14 @@ function MainPage() {
       <div className="p-4 sm:p-6 md:p-8 lg:p-10">
         <div className="max-w-5xl mx-auto">
           <header className="mb-8 sm:mb-10 md:mb-12 lg:mb-16">
+            <div className="flex justify-end mb-4">
+              <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} />
+            </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-christmas-red-600 text-center mb-4 sm:mb-6 leading-tight">
-              🎅 Secret Santa 🎄
+              🎅 {t.mainPage.title} 🎄
             </h1>
             <p className="text-center text-christmas-green-700 text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 font-medium">
-              Create your Secret Santa assignments
+              {t.mainPage.subtitle}
             </p>
             <div className="text-center text-2xl sm:text-3xl space-x-2 sm:space-x-3">
               <span>❄️</span>
@@ -243,21 +263,21 @@ function MainPage() {
             <div className="bg-white rounded-xl shadow-xl p-6 sm:p-8 lg:p-10 border border-snow-200">
               <h2 className="text-2xl sm:text-3xl font-bold text-christmas-green-700 mb-6 sm:mb-8 flex items-center gap-2">
                 <span>👥</span>
-                <span>Add Participants</span>
+                <span>{t.mainPage.addParticipants.title}</span>
               </h2>
 
               <form onSubmit={handleSubmit} className="mb-6 sm:mb-8">
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <div className="flex-1">
                     <label htmlFor="participant-name" className="sr-only">
-                      Participant Name
+                      {t.mainPage.addParticipants.inputPlaceholder}
                     </label>
                     <input
                       id="participant-name"
                       type="text"
                       value={inputName}
                       onChange={(e) => handleInputChange(e.target.value)}
-                      placeholder="Enter participant name"
+                      placeholder={t.mainPage.addParticipants.inputPlaceholder}
                       className="w-full px-4 py-3 sm:py-3.5 text-base sm:text-lg border-2 border-snow-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-christmas-green-500 focus:border-transparent transition-all duration-200"
                     />
                     {error && (
@@ -270,20 +290,20 @@ function MainPage() {
                     type="submit"
                     className="px-6 sm:px-8 py-3 sm:py-3.5 bg-christmas-green-600 text-white font-semibold text-base sm:text-lg rounded-lg hover:bg-christmas-green-700 active:bg-christmas-green-800 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-100"
                   >
-                    Add Participant
+                    {t.mainPage.addParticipants.addButton}
                   </button>
                 </div>
               </form>
 
               {participants.length === 0 ? (
                 <div className="text-center py-10 sm:py-12 text-snow-600">
-                  <p className="text-lg sm:text-xl">🎄 No participants yet</p>
-                  <p className="text-sm sm:text-base mt-2">Add your first participant to get started!</p>
+                  <p className="text-lg sm:text-xl">{t.mainPage.addParticipants.noParticipants}</p>
+                  <p className="text-sm sm:text-base mt-2">{t.mainPage.addParticipants.noParticipantsHint}</p>
                 </div>
               ) : (
                 <div>
                   <h3 className="text-lg sm:text-xl font-semibold text-christmas-green-700 mb-4 sm:mb-5">
-                    Participants ({participants.length})
+                    {t.mainPage.addParticipants.participantCount} ({participants.length})
                   </h3>
                   <ul className="space-y-2 sm:space-y-3">
                     {participants.map((participant) => (
@@ -295,7 +315,7 @@ function MainPage() {
                           {participant.name}
                           {isParticipantPreAssigned(participant.id) && (
                             <span className="text-xs sm:text-sm bg-christmas-gold-500 text-white px-2 py-0.5 sm:py-1 rounded-full" title="Has pre-assignment">
-                              🎯
+                              {t.mainPage.addParticipants.preAssignedBadge}
                             </span>
                           )}
                         </span>
@@ -319,17 +339,17 @@ function MainPage() {
               <div className="bg-white rounded-xl shadow-xl p-6 sm:p-8 lg:p-10 border border-snow-200">
                 <h2 className="text-2xl sm:text-3xl font-bold text-christmas-green-700 mb-4 sm:mb-6 flex items-center gap-2">
                   <span>🎯</span>
-                  <span>Pre-Assignments (Optional)</span>
+                  <span>{t.mainPage.preAssignments.title}</span>
                 </h2>
                 <p className="text-snow-600 text-base sm:text-lg mb-6 sm:mb-8">
-                  Specify who should give to whom. The algorithm will respect these assignments.
+                  {t.mainPage.preAssignments.description}
                 </p>
 
                 <form onSubmit={handleAddPreAssignment} className="mb-6 sm:mb-8">
                   <div className="flex flex-col lg:flex-row gap-3 sm:gap-4">
                     <div className="flex-1">
                       <label htmlFor="giver-select" className="block text-sm sm:text-base font-medium text-christmas-green-700 mb-2">
-                        Giver
+                        {t.mainPage.preAssignments.giverLabel}
                       </label>
                       <select
                         id="giver-select"
@@ -337,7 +357,7 @@ function MainPage() {
                         onChange={(e) => handlePreAssignmentSelectionChange('giver', e.target.value)}
                         className="w-full px-4 py-3 sm:py-3.5 text-base sm:text-lg border-2 border-snow-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-christmas-green-500 focus:border-transparent transition-all duration-200"
                       >
-                        <option value="">Select...</option>
+                        <option value="">{t.mainPage.preAssignments.selectPlaceholder}</option>
                         {participants.map((participant) => (
                           <option key={participant.id} value={participant.id}>
                             {participant.name}
@@ -348,7 +368,7 @@ function MainPage() {
 
                     <div className="flex-1">
                       <label htmlFor="receiver-select" className="block text-sm sm:text-base font-medium text-christmas-green-700 mb-2">
-                        Receiver
+                        {t.mainPage.preAssignments.receiverLabel}
                       </label>
                       <select
                         id="receiver-select"
@@ -356,7 +376,7 @@ function MainPage() {
                         onChange={(e) => handlePreAssignmentSelectionChange('receiver', e.target.value)}
                         className="w-full px-4 py-3 sm:py-3.5 text-base sm:text-lg border-2 border-snow-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-christmas-green-500 focus:border-transparent transition-all duration-200"
                       >
-                        <option value="">Select...</option>
+                        <option value="">{t.mainPage.preAssignments.selectPlaceholder}</option>
                         {participants.map((participant) => (
                           <option key={participant.id} value={participant.id}>
                             {participant.name}
@@ -371,7 +391,7 @@ function MainPage() {
                         className="w-full lg:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-christmas-green-600 text-white font-semibold text-base sm:text-lg rounded-lg hover:bg-christmas-green-700 active:bg-christmas-green-800 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-100 disabled:bg-snow-300 disabled:cursor-not-allowed disabled:hover:scale-100"
                         disabled={!selectedGiverId || !selectedReceiverId}
                       >
-                        Add Pre-Assignment
+                        {t.mainPage.preAssignments.addButton}
                       </button>
                     </div>
                   </div>
@@ -384,12 +404,12 @@ function MainPage() {
 
                 {preAssignments.length === 0 ? (
                   <div className="text-center py-8 sm:py-10 text-snow-600">
-                    <p className="text-base sm:text-lg">No pre-assignments yet</p>
+                    <p className="text-base sm:text-lg">{t.mainPage.preAssignments.noPreAssignments}</p>
                   </div>
                 ) : (
                   <div>
                     <h3 className="text-lg sm:text-xl font-semibold text-christmas-green-700 mb-4 sm:mb-5">
-                      Pre-Assignments ({preAssignments.length})
+                      {t.mainPage.preAssignments.preAssignmentCount} ({preAssignments.length})
                     </h3>
                     <ul className="space-y-2 sm:space-y-3">
                       {preAssignments.map((preAssignment) => (
@@ -422,14 +442,14 @@ function MainPage() {
                     {isGenerating ? (
                       <span className="flex items-center justify-center gap-3">
                         <span className="animate-spin text-2xl">🎄</span>
-                        <span>Generating assignments...</span>
+                        <span>{t.mainPage.generate.buttonGenerating}</span>
                       </span>
                     ) : participants.length < 3 ? (
-                      `Need at least 3 participants (currently ${participants.length})`
+                      replaceVariables(t.mainPage.generate.buttonNeedMore, { count: participants.length.toString() })
                     ) : (
                       <span className="flex items-center justify-center gap-2">
                         <span>🎅</span>
-                        <span>Generate Secret Santa Assignments</span>
+                        <span>{t.mainPage.generate.button}</span>
                       </span>
                     )}
                   </button>
@@ -447,10 +467,10 @@ function MainPage() {
             <section ref={resultsRef} className="mb-8 sm:mb-10 animate-fade-in">
               <div className="bg-white rounded-xl shadow-xl p-6 sm:p-8 lg:p-10 border-2 border-christmas-gold-200">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-christmas-green-700 mb-4 sm:mb-6 text-center">
-                  🎉 Your Secret Santa Assignments Are Ready! 🎉
+                  {t.mainPage.results.title}
                 </h2>
                 <p className="text-center text-snow-600 text-base sm:text-lg mb-6 sm:mb-8">
-                  Share these links with each participant. Each link reveals only that person's assignment.
+                  {t.mainPage.results.description}
                 </p>
 
                 <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
@@ -476,12 +496,12 @@ function MainPage() {
                           {copiedLinkId === link.participantName ? (
                             <>
                               <span className="text-lg">✓</span>
-                              <span>Copied!</span>
+                              <span>{t.mainPage.results.copied}</span>
                             </>
                           ) : (
                             <>
                               <span>📋</span>
-                              <span>Copy Link</span>
+                              <span>{t.mainPage.results.copyLink}</span>
                             </>
                           )}
                         </button>
@@ -491,7 +511,7 @@ function MainPage() {
                           aria-label={`Open link for ${link.participantName}`}
                         >
                           <span>🎁</span>
-                          <span>Open</span>
+                          <span>{t.mainPage.results.open}</span>
                         </button>
                       </div>
                     </div>
@@ -506,17 +526,17 @@ function MainPage() {
                     {copiedAll ? (
                       <span className="flex items-center justify-center gap-3">
                         <span className="text-2xl">✓</span>
-                        <span>All Links Copied!</span>
+                        <span>{t.mainPage.results.copiedAll}</span>
                       </span>
                     ) : (
                       <span className="flex items-center justify-center gap-3">
                         <span>📋</span>
-                        <span>Copy All Links</span>
+                        <span>{t.mainPage.results.copyAll}</span>
                       </span>
                     )}
                   </button>
                   <p className="text-center text-sm sm:text-base text-snow-600 mt-3 sm:mt-4">
-                    {copiedAll ? 'All links copied! You can now paste them into your messaging app.' : 'Click to copy all links at once'}
+                    {copiedAll ? t.mainPage.results.copiedAllMessage : t.mainPage.results.copyAllHint}
                   </p>
                 </div>
               </div>
