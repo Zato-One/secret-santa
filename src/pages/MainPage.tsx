@@ -442,23 +442,33 @@ function MainPage() {
                           {link.revealUrl}
                         </p>
                       </div>
-                      <button
-                        onClick={() => handleCopyLink(link.revealUrl, link.participantName)}
-                        className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-christmas-green-600 text-white font-semibold rounded-lg hover:bg-christmas-green-700 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-100 whitespace-nowrap text-sm sm:text-base"
-                        aria-label={`Copy link for ${link.participantName}`}
-                      >
-                        {copiedLinkId === link.participantName ? (
-                          <>
-                            <span className="text-lg">✓</span>
-                            <span>Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <span>📋</span>
-                            <span>Copy Link</span>
-                          </>
-                        )}
-                      </button>
+                      <div className="flex gap-2 sm:gap-3">
+                        <button
+                          onClick={() => handleCopyLink(link.revealUrl, link.participantName)}
+                          className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-christmas-green-600 text-white font-semibold rounded-lg hover:bg-christmas-green-700 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-100 whitespace-nowrap text-sm sm:text-base"
+                          aria-label={`Copy link for ${link.participantName}`}
+                        >
+                          {copiedLinkId === link.participantName ? (
+                            <>
+                              <span className="text-lg">✓</span>
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>📋</span>
+                              <span>Copy Link</span>
+                            </>
+                          )}
+                        </button>
+                        <button
+                          onClick={() => window.open(link.revealUrl, '_blank')}
+                          className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 bg-christmas-red-600 text-white font-semibold rounded-lg hover:bg-christmas-red-700 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 active:scale-100 whitespace-nowrap text-sm sm:text-base"
+                          aria-label={`Open link for ${link.participantName}`}
+                        >
+                          <span>🎁</span>
+                          <span>Open</span>
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

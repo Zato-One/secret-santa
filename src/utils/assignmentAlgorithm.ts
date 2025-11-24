@@ -51,6 +51,10 @@ function attemptGeneration(
     giverToReceiver.set(preAssign.giverId, preAssign.receiverId);
   }
 
+  const preAssignmentPairs = new Set(
+    preAssignments.map(pa => `${pa.giverId}->${pa.receiverId}`)
+  );
+
   const unassignedGivers = participants.filter(
     (p) => !assignedGivers.has(p.id)
   );
@@ -64,7 +68,11 @@ function attemptGeneration(
 
       const wouldCreateReciprocal =
         giverToReceiver.get(receiver.id) === giver.id;
-      if (wouldCreateReciprocal) return false;
+      if (wouldCreateReciprocal) {
+        const isReciprocalPreAssigned =
+          preAssignmentPairs.has(`${receiver.id}->${giver.id}`);
+        if (!isReciprocalPreAssigned) return false;
+      }
 
       return true;
     });
@@ -147,10 +155,54 @@ function validateAssignments(
     assignments.map((a) => [a.giverId, a.receiverId])
   );
 
+  const preAssignmentPairs = new Set(
+    preAssignments.map(pa => `${pa.giverId}->${pa.receiverId}`)
+  );
+
   for (const assignment of assignments) {
     const reverseAssignment = assignmentMap.get(assignment.receiverId);
     if (reverseAssignment === assignment.giverId) {
-      return `Reciprocal pair detected: ${assignment.giverName} ↔ ${assignment.receiverName}`;
+      const forwardPreAssigned = preAssignmentPairs.has(`${assignment.giverId}->${assignment.receiverId}`);
+      const reversePreAssigned = preAssignmentPairs.has(`${assignment.receiverId}->${assignment.giverId}`);
+
+      if (!forwardPreAssigned || !reversePreAssigned) {
+        return `Reciprocal pair detected: ${assignment.giverName} ↔ ${assignment.receiverName}`;
+      }
+    }
+  }
+
+  const getCycleLength = (startId: string): number => {
+    let currentId = startId;
+    let count = 0;
+
+    while (count <= participants.length) {
+      const nextId = assignmentMap.get(currentId);
+      if (!nextId) return 0;
+
+      count++;
+      currentId = nextId;
+
+      if (currentId === startId) {
+        return count;
+      }
+    }
+    return 0;
+  };
+
+  const cycleLength = getCycleLength(participants[0].id);
+  if (cycleLength !== participants.length) {
+    const hasBidirectionalPairs = preAssignments.some(pa1 =>
+      preAssignments.some(pa2 =>
+        pa1.giverId === pa2.receiverId &&
+        pa1.receiverId === pa2.giverId &&
+        pa1.giverId !== pa2.giverId
+      )
+    );
+
+    if (!hasBidirectionalPairs) {
+      return cycleLength > 0
+        ? `Assignments form incomplete cycles instead of one complete cycle of all participants`
+        : `Assignments form an invalid structure`;
     }
   }
 
