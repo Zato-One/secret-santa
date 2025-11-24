@@ -50,35 +50,35 @@ This plan outlines the complete implementation of a stateless Secret Santa web a
 
 ## Phase 4: Assignment Algorithm
 
-- [ ] **Step 18**: Create TypeScript types for participants and assignments
-- [ ] **Step 19**: Implement basic random assignment algorithm
-- [ ] **Step 20**: Add reciprocal pair detection and prevention logic
-- [ ] **Step 21**: Integrate pre-assignments into assignment algorithm
-- [ ] **Step 22**: Add cycle formation logic for optimal gift chains
-- [ ] **Step 23**: Implement assignment validation and retry mechanism
-- [ ] **Step 24**: Test algorithm with various participant counts and pre-assignments
+- [x] **Step 18**: Create TypeScript types for participants and assignments
+- [x] **Step 19**: Implement basic random assignment algorithm
+- [x] **Step 20**: Add reciprocal pair detection and prevention logic
+- [x] **Step 21**: Integrate pre-assignments into assignment algorithm
+- [x] **Step 22**: Add cycle formation logic for optimal gift chains
+- [x] **Step 23**: Implement assignment validation and retry mechanism
+- [x] **Step 24**: Test algorithm with various participant counts and pre-assignments
 
 ---
 
 ## Phase 5: Encryption Implementation
 
-- [ ] **Step 25**: Create encryption utility module with Web Crypto API
-- [ ] **Step 26**: Implement AES-256-GCM encryption function
-- [ ] **Step 27**: Implement corresponding decryption function
-- [ ] **Step 28**: Add Base64URL encoding/decoding utilities
-- [ ] **Step 29**: Create function to generate encrypted URL from assignment data
-- [ ] **Step 30**: Test encryption/decryption with sample data
+- [x] **Step 25**: Create encryption utility module with Web Crypto API
+- [x] **Step 26**: Implement AES-256-GCM encryption function
+- [x] **Step 27**: Implement corresponding decryption function
+- [x] **Step 28**: Add Base64URL encoding/decoding utilities
+- [x] **Step 29**: Create function to generate encrypted URL from assignment data
+- [x] **Step 30**: Test encryption/decryption with sample data
 
 ---
 
 ## Phase 6: Main Page - Link Generation & Display
 
-- [ ] **Step 31**: Add "Generate Assignments" button to main page
-- [ ] **Step 32**: Implement assignment generation trigger and error handling
-- [ ] **Step 33**: Create results display component showing participant names with links
-- [ ] **Step 34**: Add copy-to-clipboard functionality for individual links
-- [ ] **Step 35**: Add "Copy All Links" functionality
-- [ ] **Step 36**: Style results section with clear visual hierarchy
+- [x] **Step 31**: Add "Generate Assignments" button to main page
+- [x] **Step 32**: Implement assignment generation trigger and error handling
+- [x] **Step 33**: Create results display component showing participant names with links
+- [x] **Step 34**: Add copy-to-clipboard functionality for individual links
+- [x] **Step 35**: Add "Copy All Links" functionality
+- [x] **Step 36**: Style results section with clear visual hierarchy
 
 ---
 
