@@ -1,0 +1,113 @@
+import type { Translations } from '../types'
+
+export const pl: Translations = {
+  mainPage: {
+    title: 'Tajny Mikołaj',
+    subtitle: 'Stwórz swoje losowania Tajnego Mikołaja',
+    decorations: '❄️ 🎁 ⭐ 🎁 ❄️',
+    addParticipants: {
+      title: 'Dodaj Uczestników',
+      inputPlaceholder: 'Wpisz imię uczestnika',
+      addButton: 'Dodaj Uczestnika',
+      noParticipants: '🎄 Brak uczestników',
+      noParticipantsHint: 'Dodaj pierwszego uczestnika, aby rozpocząć!',
+      participantCount: 'Uczestnicy',
+      preAssignedBadge: '🎯',
+    },
+    preAssignments: {
+      title: 'Wstępne Przypisania (Opcjonalne)',
+      description: 'Określ, kto komu powinien przekazać prezent. Algorytm uwzględni te przypisania.',
+      giverLabel: 'Obdarowujący',
+      receiverLabel: 'Obdarowany',
+      selectPlaceholder: 'Wybierz...',
+      addButton: 'Dodaj Wstępne Przypisanie',
+      noPreAssignments: 'Brak wstępnych przypisań',
+      preAssignmentCount: 'Wstępne Przypisania',
+    },
+    generate: {
+      button: 'Wygeneruj Losowania Tajnego Mikołaja',
+      buttonGenerating: 'Generowanie losowań...',
+      buttonNeedMore: 'Potrzeba co najmniej 3 uczestników (obecnie {count})',
+      errorTitle: 'Błąd Generowania',
+    },
+    results: {
+      title: '🎉 Twoje Losowania Tajnego Mikołaja są Gotowe! 🎉',
+      description: 'Udostępnij te linki każdemu uczestnikowi. Każdy link ujawnia tylko przypisanie tej osoby.',
+      copyLink: 'Kopiuj Link',
+      copied: 'Skopiowano!',
+      open: 'Otwórz',
+      copyAll: 'Kopiuj Wszystkie Linki',
+      copiedAll: 'Wszystkie Linki Skopiowane!',
+      copyAllHint: 'Kliknij, aby skopiować wszystkie linki na raz',
+      copiedAllMessage: 'Wszystkie linki skopiowane! Możesz teraz wkleić je do swojej aplikacji do wiadomości.',
+    },
+    errors: {
+      emptyName: 'Proszę wpisać imię',
+      nameTooLong: 'Imię jest za długie (maksymalnie 50 znaków)',
+      duplicateName: 'Ten uczestnik już istnieje',
+      selfAssignment: 'Uczestnik nie może obdarować samego siebie',
+      duplicatePreAssignment: 'To wstępne przypisanie już istnieje',
+      giverAlreadyAssigned: '{name} jest już wstępnie przypisany jako obdarowujący',
+      receiverAlreadyAssigned: '{name} jest już wstępnie przypisany jako obdarowany (dozwolone są tylko wzajemne pary)',
+      generationFailed: 'Nie udało się wygenerować losowań',
+    },
+  },
+  revealPage: {
+    loading: {
+      title: 'Ładowanie Twojego Przypisania...',
+      subtitle: 'Proszę czekać, przygotowujemy ujawnienie Twojego Tajnego Mikołaja',
+    },
+    error: {
+      missingData: {
+        title: 'Brak Danych Linku',
+        message: 'Ten link wydaje się być niekompletny. Sprawdź link i spróbuj ponownie lub skontaktuj się z organizatorem w celu uzyskania nowego linku.',
+      },
+      invalidLink: {
+        title: 'Nieprawidłowy Link',
+        message: 'Ten link wydaje się być nieprawidłowy lub niekompletny. Skontaktuj się z organizatorem w celu uzyskania nowego linku.',
+      },
+      invalidFormat: {
+        title: 'Nieprawidłowy Format Linku',
+        message: 'Ten link wydaje się być niekompletny lub nieprawidłowy. Skontaktuj się z organizatorem w celu uzyskania nowego linku.',
+      },
+      corrupted: {
+        title: 'Link Uszkodzony',
+        message: 'Ten link został uszkodzony i nie można go otworzyć. Skontaktuj się z organizatorem w celu uzyskania nowego linku.',
+      },
+      cannotLoad: {
+        title: 'Nie Można Załadować Przypisania',
+        message: 'Nie można załadować Twojego przypisania. Skontaktuj się z organizatorem w celu uzyskania nowego linku.',
+      },
+      unexpected: {
+        title: 'Nieoczekiwany Błąd',
+        message: 'Coś poszło nie tak podczas ładowania Twojego przypisania. Spróbuj ponownie lub skontaktuj się z organizatorem.',
+      },
+      tipLabel: 'Wskazówka:',
+      tipMessage: 'Upewnij się, że skopiowałeś cały link, włącznie ze wszystkimi znakami na końcu.',
+    },
+    firstConfirmation: {
+      question: 'Czy jesteś {name}?',
+      welcomeText: 'Witaj w Tajnym Mikołaju! Zostałeś losowo dopasowany do kogoś, komu masz wręczyć prezent.',
+      secretText: 'To niespodzianka, więc upewnij się, że tylko Ty patrzysz na ten ekran! 🤫',
+      yesButton: 'Tak, to ja! 🎅',
+      noButton: 'Nie, to nie ja',
+    },
+    secondConfirmation: {
+      question: 'Czy na pewno jesteś {name}?',
+      subtitle: 'Tylko się upewniamy przed ujawnieniem Twojego przypisania Tajnego Mikołaja!',
+      yesButton: 'Tak, jestem {name}',
+      noButton: 'Nie, wróć',
+    },
+    reveal: {
+      title: 'Jesteś Tajnym Mikołajem dla...',
+      congratulations: '🎁 Gratulacje! 🎁',
+      messagePrefix: 'Wręczasz prezent dla',
+      messageSuffix: '!',
+      reminder: 'Pamiętaj, aby zachować to w tajemnicy i pomyśleć o przemyślanym prezencie. Wesołych świąt! 🎄',
+    },
+  },
+  common: {
+    secretSanta: 'Tajny Mikołaj',
+    loading: 'Ładowanie...',
+  },
+}

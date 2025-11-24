@@ -1,0 +1,113 @@
+import type { Translations } from '../types'
+
+export const it: Translations = {
+  mainPage: {
+    title: 'Babbo Natale Segreto',
+    subtitle: 'Crea le tue assegnazioni di Babbo Natale Segreto',
+    decorations: '❄️ 🎁 ⭐ 🎁 ❄️',
+    addParticipants: {
+      title: 'Aggiungi Partecipanti',
+      inputPlaceholder: 'Inserisci il nome del partecipante',
+      addButton: 'Aggiungi Partecipante',
+      noParticipants: '🎄 Ancora nessun partecipante',
+      noParticipantsHint: 'Aggiungi il tuo primo partecipante per iniziare!',
+      participantCount: 'Partecipanti',
+      preAssignedBadge: '🎯',
+    },
+    preAssignments: {
+      title: 'Pre-assegnazioni (Opzionale)',
+      description: 'Specifica chi deve regalare a chi. L\'algoritmo rispetterà queste assegnazioni.',
+      giverLabel: 'Donatore',
+      receiverLabel: 'Ricevente',
+      selectPlaceholder: 'Seleziona...',
+      addButton: 'Aggiungi Pre-assegnazione',
+      noPreAssignments: 'Ancora nessuna pre-assegnazione',
+      preAssignmentCount: 'Pre-assegnazioni',
+    },
+    generate: {
+      button: 'Genera Assegnazioni di Babbo Natale Segreto',
+      buttonGenerating: 'Generazione assegnazioni in corso...',
+      buttonNeedMore: 'Necessari almeno 3 partecipanti (attualmente {count})',
+      errorTitle: 'Errore di Generazione',
+    },
+    results: {
+      title: '🎉 Le tue Assegnazioni di Babbo Natale Segreto sono Pronte! 🎉',
+      description: 'Condividi questi link con ogni partecipante. Ogni link rivela solo l\'assegnazione di quella persona.',
+      copyLink: 'Copia Link',
+      copied: 'Copiato!',
+      open: 'Apri',
+      copyAll: 'Copia Tutti i Link',
+      copiedAll: 'Tutti i Link Copiati!',
+      copyAllHint: 'Clicca per copiare tutti i link in una volta',
+      copiedAllMessage: 'Tutti i link copiati! Ora puoi incollarli nella tua app di messaggistica.',
+    },
+    errors: {
+      emptyName: 'Per favore inserisci un nome',
+      nameTooLong: 'Il nome è troppo lungo (massimo 50 caratteri)',
+      duplicateName: 'Questo partecipante esiste già',
+      selfAssignment: 'Un partecipante non può regalare a se stesso',
+      duplicatePreAssignment: 'Questa pre-assegnazione esiste già',
+      giverAlreadyAssigned: '{name} è già pre-assegnato come donatore',
+      receiverAlreadyAssigned: '{name} è già pre-assegnato come ricevente (sono consentite solo coppie reciproche)',
+      generationFailed: 'Generazione delle assegnazioni fallita',
+    },
+  },
+  revealPage: {
+    loading: {
+      title: 'Caricamento della tua Assegnazione...',
+      subtitle: 'Attendi mentre prepariamo la tua rivelazione di Babbo Natale Segreto',
+    },
+    error: {
+      missingData: {
+        title: 'Dati del Link Mancanti',
+        message: 'Questo link sembra essere incompleto. Verifica il link e riprova, o contatta l\'organizzatore per un nuovo link.',
+      },
+      invalidLink: {
+        title: 'Link Non Valido',
+        message: 'Questo link sembra essere non valido o incompleto. Contatta l\'organizzatore per un nuovo link.',
+      },
+      invalidFormat: {
+        title: 'Formato del Link Non Valido',
+        message: 'Questo link sembra essere incompleto o non valido. Contatta l\'organizzatore per un nuovo link.',
+      },
+      corrupted: {
+        title: 'Link Corrotto',
+        message: 'Questo link è stato corrotto e non può essere aperto. Contatta l\'organizzatore per un nuovo link.',
+      },
+      cannotLoad: {
+        title: 'Impossibile Caricare l\'Assegnazione',
+        message: 'Impossibile caricare la tua assegnazione. Contatta l\'organizzatore per un nuovo link.',
+      },
+      unexpected: {
+        title: 'Errore Imprevisto',
+        message: 'Qualcosa è andato storto durante il caricamento della tua assegnazione. Riprova o contatta l\'organizzatore.',
+      },
+      tipLabel: 'Suggerimento:',
+      tipMessage: 'Assicurati di aver copiato l\'intero link, inclusi tutti i caratteri alla fine.',
+    },
+    firstConfirmation: {
+      question: 'Sei {name}?',
+      welcomeText: 'Benvenuto a Babbo Natale Segreto! Sei stato abbinato casualmente a qualcuno a cui fare un regalo.',
+      secretText: 'Questa è una sorpresa, quindi assicurati di essere l\'unico a guardare questo schermo! 🤫',
+      yesButton: 'Sì, sono io! 🎅',
+      noButton: 'No, non sono io',
+    },
+    secondConfirmation: {
+      question: 'Sei davvero {name}?',
+      subtitle: 'Solo per essere sicuri prima di rivelare la tua assegnazione di Babbo Natale Segreto!',
+      yesButton: 'Sì, sono {name}',
+      noButton: 'No, torna indietro',
+    },
+    reveal: {
+      title: 'Sei il Babbo Natale Segreto di...',
+      congratulations: '🎁 Congratulazioni! 🎁',
+      messagePrefix: 'Farai un regalo a',
+      messageSuffix: '!',
+      reminder: 'Ricorda di mantenere il segreto e inizia a pensare a un regalo premuroso. Buone feste! 🎄',
+    },
+  },
+  common: {
+    secretSanta: 'Babbo Natale Segreto',
+    loading: 'Caricamento...',
+  },
+}

@@ -1,0 +1,113 @@
+import type { Translations } from '../types'
+
+export const fr: Translations = {
+  mainPage: {
+    title: 'Père Noël Secret',
+    subtitle: 'Créez vos attributions de Père Noël Secret',
+    decorations: '❄️ 🎁 ⭐ 🎁 ❄️',
+    addParticipants: {
+      title: 'Ajouter des Participants',
+      inputPlaceholder: 'Entrez le nom du participant',
+      addButton: 'Ajouter un Participant',
+      noParticipants: '🎄 Aucun participant pour le moment',
+      noParticipantsHint: 'Ajoutez votre premier participant pour commencer !',
+      participantCount: 'Participants',
+      preAssignedBadge: '🎯',
+    },
+    preAssignments: {
+      title: 'Pré-attributions (Optionnel)',
+      description: 'Spécifiez qui doit offrir à qui. L\'algorithme respectera ces attributions.',
+      giverLabel: 'Donneur',
+      receiverLabel: 'Receveur',
+      selectPlaceholder: 'Sélectionner...',
+      addButton: 'Ajouter une Pré-attribution',
+      noPreAssignments: 'Aucune pré-attribution pour le moment',
+      preAssignmentCount: 'Pré-attributions',
+    },
+    generate: {
+      button: 'Générer les Attributions de Père Noël Secret',
+      buttonGenerating: 'Génération des attributions...',
+      buttonNeedMore: 'Au moins 3 participants nécessaires (actuellement {count})',
+      errorTitle: 'Erreur de Génération',
+    },
+    results: {
+      title: '🎉 Vos Attributions de Père Noël Secret sont Prêtes ! 🎉',
+      description: 'Partagez ces liens avec chaque participant. Chaque lien ne révèle que l\'attribution de cette personne.',
+      copyLink: 'Copier le Lien',
+      copied: 'Copié !',
+      open: 'Ouvrir',
+      copyAll: 'Copier Tous les Liens',
+      copiedAll: 'Tous les Liens Copiés !',
+      copyAllHint: 'Cliquez pour copier tous les liens en une fois',
+      copiedAllMessage: 'Tous les liens copiés ! Vous pouvez maintenant les coller dans votre application de messagerie.',
+    },
+    errors: {
+      emptyName: 'Veuillez entrer un nom',
+      nameTooLong: 'Le nom est trop long (maximum 50 caractères)',
+      duplicateName: 'Ce participant existe déjà',
+      selfAssignment: 'Un participant ne peut pas s\'offrir à lui-même',
+      duplicatePreAssignment: 'Cette pré-attribution existe déjà',
+      giverAlreadyAssigned: '{name} est déjà pré-attribué comme donneur',
+      receiverAlreadyAssigned: '{name} est déjà pré-attribué comme receveur (seules les paires réciproques sont autorisées)',
+      generationFailed: 'Échec de la génération des attributions',
+    },
+  },
+  revealPage: {
+    loading: {
+      title: 'Chargement de votre Attribution...',
+      subtitle: 'Veuillez patiente pendant que nous préparons votre révélation de Père Noël Secret',
+    },
+    error: {
+      missingData: {
+        title: 'Données du Lien Manquantes',
+        message: 'Ce lien semble incomplet. Veuillez vérifier le lien et réessayer, ou contactez l\'organisateur pour un nouveau lien.',
+      },
+      invalidLink: {
+        title: 'Lien Invalide',
+        message: 'Ce lien semble invalide ou incomplet. Veuillez contacter l\'organisateur pour un nouveau lien.',
+      },
+      invalidFormat: {
+        title: 'Format de Lien Invalide',
+        message: 'Ce lien semble incomplet ou invalide. Veuillez contacter l\'organisateur pour un nouveau lien.',
+      },
+      corrupted: {
+        title: 'Lien Corrompu',
+        message: 'Ce lien a été corrompu et ne peut pas être ouvert. Veuillez contacter l\'organisateur pour un nouveau lien.',
+      },
+      cannotLoad: {
+        title: 'Impossible de Charger l\'Attribution',
+        message: 'Impossible de charger votre attribution. Veuillez contacter l\'organisateur pour un nouveau lien.',
+      },
+      unexpected: {
+        title: 'Erreur Inattendue',
+        message: 'Une erreur s\'est produite lors du chargement de votre attribution. Veuillez réessayer ou contacter l\'organisateur.',
+      },
+      tipLabel: 'Astuce :',
+      tipMessage: 'Assurez-vous d\'avoir copié le lien entier, y compris tous les caractères à la fin.',
+    },
+    firstConfirmation: {
+      question: 'Êtes-vous {name} ?',
+      welcomeText: 'Bienvenue au Père Noël Secret ! Vous avez été associé aléatoirement à quelqu\'un à qui offrir un cadeau.',
+      secretText: 'C\'est une surprise, alors assurez-vous d\'être le seul à regarder cet écran ! 🤫',
+      yesButton: 'Oui, c\'est moi ! 🎅',
+      noButton: 'Non, ce n\'est pas moi',
+    },
+    secondConfirmation: {
+      question: 'Êtes-vous vraiment {name} ?',
+      subtitle: 'Juste pour être sûr avant de révéler votre attribution de Père Noël Secret !',
+      yesButton: 'Oui, je suis {name}',
+      noButton: 'Non, retour',
+    },
+    reveal: {
+      title: 'Vous êtes le Père Noël Secret de...',
+      congratulations: '🎁 Félicitations ! 🎁',
+      messagePrefix: 'Vous offrez un cadeau à',
+      messageSuffix: ' !',
+      reminder: 'N\'oubliez pas de garder cela secret et de penser à un cadeau attentionné. Joyeuses fêtes ! 🎄',
+    },
+  },
+  common: {
+    secretSanta: 'Père Noël Secret',
+    loading: 'Chargement...',
+  },
+}
