@@ -479,11 +479,11 @@ function MainPage() {
                       key={index}
                       className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gradient-to-r from-snow-50 to-christmas-green-50 rounded-xl p-4 sm:p-5 shadow-md hover:shadow-xl transition-all duration-200 hover:scale-[1.01] gap-3 border border-snow-200"
                     >
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 w-full">
                         <p className="font-bold sm:font-extrabold text-lg sm:text-xl text-christmas-green-800 mb-2">
                           {link.participantName}
                         </p>
-                        <p className="text-xs sm:text-sm text-snow-600 truncate font-mono bg-white px-2 py-1 rounded">
+                        <p className="text-xs sm:text-sm text-snow-600 break-all font-mono bg-white px-2 py-1 rounded">
                           {link.revealUrl}
                         </p>
                       </div>
