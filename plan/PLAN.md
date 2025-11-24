@@ -10,6 +10,9 @@ This plan outlines the complete implementation of a stateless Secret Santa web a
 - AES-256-GCM encrypted reveal links
 - Double-confirmation identity verification
 - Christmas-themed UI
+- Multi-language support (9 languages)
+
+**Total Phases:** 14 | **Total Steps:** 83
 
 ---
 
@@ -79,75 +82,90 @@ This plan outlines the complete implementation of a stateless Secret Santa web a
 
 ---
 
-## Phase 7: Reveal Page - URL Parsing & Decryption
+## Phase 7: UI/UX Polish - Main Page & Christmas Theming
 
-- [ ] **Step 37**: Create reveal page component with route parameter
-- [ ] **Step 38**: Implement URL parameter extraction and validation
-- [ ] **Step 39**: Add decryption of URL parameter on page load
-- [ ] **Step 40**: Handle decryption errors with user-friendly messages
-- [ ] **Step 41**: Store decrypted assignment data in component state
-
----
-
-## Phase 8: Reveal Page - Identity Confirmation Flow
-
-- [ ] **Step 42**: Create initial confirmation screen with "Are you [NAME]?" prompt
-- [ ] **Step 43**: Add Secret Santa explanation text for first-time users
-- [ ] **Step 44**: Implement first confirmation button
-- [ ] **Step 45**: Create second confirmation modal with "Are you really [NAME]?" question
-- [ ] **Step 46**: Add Confirm and Disagree buttons to modal
-- [ ] **Step 47**: Implement confirmation state management and flow control
+- [ ] **Step 37**: Apply consistent Christmas color scheme to main page (red, green, gold, white)
+- [ ] **Step 38**: Add Christmas decorations to main page (snowflakes, stars, trees)
+- [ ] **Step 39**: Ensure main page responsive design for mobile, tablet, and desktop
+- [ ] **Step 40**: Implement smooth transitions and animations for participant actions
+- [ ] **Step 41**: Add loading states for assignment generation
+- [ ] **Step 42**: Polish typography and spacing on main page
 
 ---
 
-## Phase 9: Reveal Page - Assignment Display
+## Phase 8: Reveal Page - URL Parsing & Decryption
 
-- [ ] **Step 48**: Create assignment reveal component showing receiver name
-- [ ] **Step 49**: Add congratulatory or instructional message
-- [ ] **Step 50**: Style reveal section with festive design
-- [ ] **Step 51**: Add optional decorative elements (snowflakes, ornaments)
-
----
-
-## Phase 10: UI/UX Polish & Christmas Theming
-
-- [ ] **Step 52**: Apply consistent Christmas color scheme (red, green, gold, white)
-- [ ] **Step 53**: Add subtle Christmas decorations (snowflakes, stars, trees)
-- [ ] **Step 54**: Ensure responsive design for mobile, tablet, and desktop
-- [ ] **Step 55**: Implement smooth transitions and animations
-- [ ] **Step 56**: Add loading states for async operations
-- [ ] **Step 57**: Polish typography and spacing throughout app
+- [ ] **Step 43**: Create reveal page component with route parameter
+- [ ] **Step 44**: Implement URL parameter extraction and validation
+- [ ] **Step 45**: Add decryption of URL parameter on page load
+- [ ] **Step 46**: Handle decryption errors with user-friendly messages
+- [ ] **Step 47**: Store decrypted assignment data in component state
 
 ---
 
-## Phase 11: Testing & Refinement
+## Phase 9: Reveal Page - Identity Confirmation Flow
 
-- [ ] **Step 58**: Test participant management with edge cases (1 person, 100 people)
-- [ ] **Step 59**: Test pre-assignment feature with various configurations
-- [ ] **Step 60**: Test assignment algorithm for constraint violations
-- [ ] **Step 61**: Test encryption/decryption with different data sizes
-- [ ] **Step 62**: Test reveal page with valid and invalid URLs
-- [ ] **Step 63**: Test all UI interactions and error states
-- [ ] **Step 64**: Verify responsive design on multiple devices
-
----
-
-## Phase 12: Deployment Setup
-
-- [ ] **Step 65**: Create production build configuration
-- [ ] **Step 66**: Set up Vercel project and deployment settings
-- [ ] **Step 67**: Configure custom domain (if applicable)
-- [ ] **Step 68**: Test deployed application on Vercel
-- [ ] **Step 69**: Verify all functionality works in production environment
+- [ ] **Step 48**: Create initial confirmation screen with "Are you [NAME]?" prompt
+- [ ] **Step 49**: Add Secret Santa explanation text for first-time users
+- [ ] **Step 50**: Implement first confirmation button
+- [ ] **Step 51**: Create second confirmation modal with "Are you really [NAME]?" question
+- [ ] **Step 52**: Add Confirm and Disagree buttons to modal
+- [ ] **Step 53**: Implement confirmation state management and flow control
 
 ---
 
-## Future Enhancements (Not in Initial Scope)
+## Phase 10: Reveal Page - Assignment Display
 
-- Multi-language support (9 languages including Czech)
-- Language selector on main page
-- Language code in encrypted URL
-- Localized reveal page content
+- [ ] **Step 54**: Create assignment reveal component showing receiver name
+- [ ] **Step 55**: Add congratulatory or instructional message
+- [ ] **Step 56**: Style reveal section with festive design
+- [ ] **Step 57**: Add optional decorative elements (snowflakes, ornaments)
+
+---
+
+## Phase 11: UI/UX Polish - Reveal Page & Final Polish
+
+- [ ] **Step 58**: Apply Christmas theming to reveal page (colors, decorations)
+- [ ] **Step 59**: Ensure reveal page responsive design for all devices
+- [ ] **Step 60**: Add smooth transitions for confirmation flow and reveal
+- [ ] **Step 61**: Polish typography and spacing on reveal page
+- [ ] **Step 62**: Final cross-page consistency check (colors, fonts, spacing)
+- [ ] **Step 63**: Optimize performance and loading experience
+
+---
+
+## Phase 12: Testing & Refinement
+
+- [ ] **Step 64**: Test participant management with edge cases (1 person, 100 people)
+- [ ] **Step 65**: Test pre-assignment feature with various configurations
+- [ ] **Step 66**: Test assignment algorithm for constraint violations
+- [ ] **Step 67**: Test encryption/decryption with different data sizes
+- [ ] **Step 68**: Test reveal page with valid and invalid URLs
+- [ ] **Step 69**: Test all UI interactions and error states
+- [ ] **Step 70**: Verify responsive design on multiple devices
+
+---
+
+## Phase 13: Deployment Setup
+
+- [ ] **Step 71**: Create production build configuration
+- [ ] **Step 72**: Set up Vercel project and deployment settings
+- [ ] **Step 73**: Configure custom domain (if applicable)
+- [ ] **Step 74**: Test deployed application on Vercel
+- [ ] **Step 75**: Verify all functionality works in production environment
+
+---
+
+## Phase 14: Multi-Language Support
+
+- [ ] **Step 76**: Design translation structure and create language constant files
+- [ ] **Step 77**: Implement language selector component on main page
+- [ ] **Step 78**: Add translations for 9 languages (Czech + 8 common languages)
+- [ ] **Step 79**: Update encryption to include language code in URL
+- [ ] **Step 80**: Update decryption to extract language code
+- [ ] **Step 81**: Implement language-aware text rendering on reveal page
+- [ ] **Step 82**: Test all languages for completeness and accuracy
+- [ ] **Step 83**: Verify language switching updates all UI elements correctly
 
 ---
 
