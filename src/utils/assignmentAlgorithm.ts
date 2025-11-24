@@ -171,23 +171,38 @@ function validateAssignments(
     }
   }
 
-  const visited = new Set<string>();
-  const checkForCycles = (startId: string, currentId: string, depth: number): boolean => {
-    if (depth > 2 && currentId === startId) return true;
-    if (depth > participants.length) return false;
-    if (visited.has(currentId) && currentId !== startId) return false;
+  const getCycleLength = (startId: string): number => {
+    let currentId = startId;
+    let count = 0;
 
-    visited.add(currentId);
-    const nextId = assignmentMap.get(currentId);
-    if (!nextId) return false;
+    while (count <= participants.length) {
+      const nextId = assignmentMap.get(currentId);
+      if (!nextId) return 0;
 
-    return checkForCycles(startId, nextId, depth + 1);
+      count++;
+      currentId = nextId;
+
+      if (currentId === startId) {
+        return count;
+      }
+    }
+    return 0;
   };
 
-  for (const participant of participants) {
-    visited.clear();
-    if (checkForCycles(participant.id, participant.id, 0)) {
-      return `Circular assignment chain detected involving participant ID: ${participant.id}`;
+  const cycleLength = getCycleLength(participants[0].id);
+  if (cycleLength !== participants.length) {
+    const hasBidirectionalPairs = preAssignments.some(pa1 =>
+      preAssignments.some(pa2 =>
+        pa1.giverId === pa2.receiverId &&
+        pa1.receiverId === pa2.giverId &&
+        pa1.giverId !== pa2.giverId
+      )
+    );
+
+    if (!hasBidirectionalPairs) {
+      return cycleLength > 0
+        ? `Assignments form incomplete cycles instead of one complete cycle of all participants`
+        : `Assignments form an invalid structure`;
     }
   }
 
