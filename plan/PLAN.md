@@ -84,12 +84,12 @@ This plan outlines the complete implementation of a stateless Secret Santa web a
 
 ## Phase 7: UI/UX Polish - Main Page & Christmas Theming
 
-- [ ] **Step 37**: Apply consistent Christmas color scheme to main page (red, green, gold, white)
-- [ ] **Step 38**: Add Christmas decorations to main page (snowflakes, stars, trees)
-- [ ] **Step 39**: Ensure main page responsive design for mobile, tablet, and desktop
-- [ ] **Step 40**: Implement smooth transitions and animations for participant actions
-- [ ] **Step 41**: Add loading states for assignment generation
-- [ ] **Step 42**: Polish typography and spacing on main page
+- [x] **Step 37**: Apply consistent Christmas color scheme to main page (red, green, gold, white)
+- [x] **Step 38**: Add Christmas decorations to main page (snowflakes, stars, trees)
+- [x] **Step 39**: Ensure main page responsive design for mobile, tablet, and desktop
+- [x] **Step 40**: Implement smooth transitions and animations for participant actions
+- [x] **Step 41**: Add loading states for assignment generation
+- [x] **Step 42**: Polish typography and spacing on main page
 
 ---
 
