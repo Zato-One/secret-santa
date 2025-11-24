@@ -37,6 +37,11 @@ function MainPage() {
       return
     }
 
+    if (trimmedName.length > 50) {
+      setError('Name is too long (maximum 50 characters)')
+      return
+    }
+
     const isDuplicate = participants.some(
       p => p.name.toLowerCase() === trimmedName.toLowerCase()
     )
@@ -93,8 +98,22 @@ function MainPage() {
     )
     if (giverAlreadyAssigned) {
       const giverName = getParticipantName(selectedGiverId)
-      setPreAssignmentError(`${giverName} is already pre-assigned`)
+      setPreAssignmentError(`${giverName} is already pre-assigned as a giver`)
       return
+    }
+
+    const receiverAlreadyAssigned = preAssignments.some(
+      pa => pa.receiverId === selectedReceiverId
+    )
+    if (receiverAlreadyAssigned) {
+      const isReciprocalPair = preAssignments.some(
+        pa => pa.giverId === selectedReceiverId && pa.receiverId === selectedGiverId
+      )
+      if (!isReciprocalPair) {
+        const receiverName = getParticipantName(selectedReceiverId)
+        setPreAssignmentError(`${receiverName} is already pre-assigned as a receiver (only reciprocal pairs are allowed)`)
+        return
+      }
     }
 
     const newPreAssignment: PreAssignment = {
