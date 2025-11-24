@@ -68,6 +68,42 @@ Simple Secret Santa website deployable to Vercel (frontend only, no backend). St
 - Sufficient obfuscation for friendly Secret Santa use case
 - Each link is self-contained with all necessary information
 
+### Selected Tech Stack
+
+**Build Tool & Dev Server:**
+- **Vite** - Lightning-fast build tool with instant HMR (Hot Module Replacement)
+- Chosen for optimal development experience and learning React fundamentals
+
+**Frontend Framework:**
+- **React 18+** - UI library for building component-based interfaces
+- **TypeScript** - Type-safe JavaScript for better developer experience
+- Pure React approach (no framework abstractions) for learning fundamentals
+
+**Styling:**
+- **Tailwind CSS** - Utility-first CSS framework for rapid UI development
+- Responsive design built-in
+- Perfect for Christmas theming with custom colors
+
+**Routing:**
+- **React Router** - Explicit client-side routing
+- Manual configuration for better understanding of routing concepts
+
+**State Management:**
+- React hooks (useState, useEffect, useContext)
+- No external state library needed for this simple use case
+
+**Deployment:**
+- Vercel - Static site hosting with automatic deployments
+- Vite builds to static HTML/CSS/JS for easy deployment
+
+**Why This Stack:**
+- Fastest development iteration (Vite dev server)
+- Pure React without framework magic
+- Best for learning React fundamentals
+- TypeScript for type safety in encryption logic
+- Deploys perfectly to Vercel as static site
+- Minimal dependencies, maximum learning
+
 ## Design Guidelines
 
 ### Visual Style
