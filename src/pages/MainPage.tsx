@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useRef, useEffect } from 'react'
 import { Layout } from '@/components'
 import { Participant, PreAssignment } from '@/types'
 import { generateAssignments } from '@/utils/assignmentAlgorithm'
@@ -18,6 +18,14 @@ function MainPage() {
   const [generationError, setGenerationError] = useState('')
   const [copiedLinkId, setCopiedLinkId] = useState<string | null>(null)
   const [copiedAll, setCopiedAll] = useState(false)
+
+  const resultsRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (generatedLinks.length > 0 && resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [generatedLinks.length])
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -406,7 +414,7 @@ function MainPage() {
           )}
 
           {generatedLinks.length > 0 && (
-            <section className="mb-8">
+            <section ref={resultsRef} className="mb-8 animate-fade-in">
               <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
                 <h2 className="text-2xl font-bold text-christmas-green-700 mb-4 text-center">
                   🎉 Your Secret Santa Assignments Are Ready! 🎉
