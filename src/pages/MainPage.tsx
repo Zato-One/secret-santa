@@ -483,7 +483,7 @@ function MainPage() {
                         <p className="font-bold sm:font-extrabold text-lg sm:text-xl text-christmas-green-800 mb-2">
                           {link.participantName}
                         </p>
-                        <p className="text-xs sm:text-sm text-snow-600 break-all font-mono bg-white px-2 py-1 rounded">
+                        <p className="text-xs sm:text-sm text-snow-600 break-words font-mono bg-white px-2 py-1 rounded">
                           {link.revealUrl}
                         </p>
                       </div>
