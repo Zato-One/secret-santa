@@ -29,12 +29,12 @@ This plan outlines the complete implementation of a stateless Secret Santa web a
 
 ## Phase 2: Main Page - Participant Management
 
-- [ ] **Step 7**: Create main page component with header and basic layout
-- [ ] **Step 8**: Build participant input form with name field and add button
-- [ ] **Step 9**: Implement participant list display with remove functionality
-- [ ] **Step 10**: Add participant state management using React hooks
-- [ ] **Step 11**: Implement validation (prevent empty names, duplicates)
-- [ ] **Step 12**: Style participant management UI with Christmas decorations
+- [x] **Step 7**: Create main page component with header and basic layout
+- [x] **Step 8**: Build participant input form with name field and add button
+- [x] **Step 9**: Implement participant list display with remove functionality
+- [x] **Step 10**: Add participant state management using React hooks
+- [x] **Step 11**: Implement validation (prevent empty names, duplicates)
+- [x] **Step 12**: Style participant management UI with Christmas decorations
 
 ---
 
