@@ -122,6 +122,12 @@ The application uses **AES-GCM** (Advanced Encryption Standard) encryption with:
 
 For this use case (friendly gift exchanges), the current security model provides adequate protection while keeping the app simple and fully client-side.
 
+## About This Project
+
+This project was **vibe coded** - meaning most of the code was written by an AI coding agent! It's a demonstration of how AI can help build functional, user-friendly applications quickly. The code structure, logic, styling, and even this README were primarily AI-generated with human guidance and review.
+
+Feel free to explore the code to see what AI-assisted development looks like in practice.
+
 ## Contributing
 
 This is a personal/educational project. Feel free to fork and adapt for your own use!
@@ -132,4 +138,4 @@ Open source and available for personal and educational use.
 
 ---
 
-Built with festive cheer for making holiday gift exchanges more fun and organized! 🎅🎄🎁
+Built with festive cheer (and AI assistance) for making holiday gift exchanges more fun and organized! 🎅🎄🎁
