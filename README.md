@@ -1,140 +1,135 @@
 # 🎅 Secret Santa Generator 🎄
 
-A web application for organizing Secret Santa gift exchanges with encrypted participant assignments and multi-language support.
+Make your holiday gift exchange easy and fun! This web app helps you organize Secret Santa by randomly assigning who gives gifts to whom. Everyone gets a special link that reveals only their own assignment, keeping the surprise intact.
 
-## Features
-
-- **Easy Participant Management**: Add participants with simple name input
-- **Pre-assignments**: Define specific giver-receiver pairs before generating assignments
-- **Encrypted Links**: Each participant receives a unique encrypted link to reveal their assignment
-- **Multi-language Support**: Available in English, Czech, German, Polish, French, Spanish, Italian, Russian, and Portuguese
-- **Mobile-Friendly**: Responsive design that works on all devices
-- **No Backend Required**: Fully client-side application
+Works in 9 languages and on any device - perfect for families, friend groups, and office parties!
 
 ## How It Works
 
-1. Add participants by entering their names
-2. (Optional) Set up pre-assignments for specific pairings
-3. Generate assignments - the algorithm ensures everyone gives and receives a gift
-4. Share unique encrypted links with each participant
-5. Each participant opens their link to discover who they're buying for
+1. Add everyone's names to your Secret Santa group
+2. (Optional) Set up specific pairings if you want certain people matched together
+3. Generate the assignments - everyone gives and receives one gift
+4. Share the unique links - each person gets their own secret link
+5. Open the link to see who you're buying for - the surprise is revealed!
 
-## Technology Stack
+## Usage Guide
 
-- **Frontend**: React 18 with TypeScript
-- **Routing**: React Router v7
-- **Styling**: Tailwind CSS v4
-- **Build Tool**: Vite
-- **Testing**: Vitest
-
-## Encryption & Security
-
-### Encryption Algorithm
-
-The application uses **AES-GCM** (Advanced Encryption Standard in Galois/Counter Mode) with:
-- **256-bit key length** for strong encryption
-- **PBKDF2** (Password-Based Key Derivation Function 2) for key derivation
-- **100,000 iterations** for key stretching
-- **12-byte initialization vector (IV)** generated randomly for each link
-- **Static salt** (`'secret-santa-salt-2024'`)
-
-### Security Considerations
-
-**This encryption is NOT cryptographically secure for sensitive data**, but it is sufficient for this use case. Here's why:
-
-**Limitations:**
-- The encryption passphrase and salt are hardcoded in the client-side source code
-- Anyone with access to the source code can decrypt the links
-- The application uses "security through obscurity" of the link itself
-
-**Why it's acceptable:**
-- An attacker would need to obtain a participant's link first
-- The only information that could be deciphered is the participant names
-- The worst-case scenario is someone spoiling the surprise - no sensitive data is exposed
-- This is a fun holiday activity, not a banking application
-
-**Potential Improvements:**
-While the current implementation includes a salt, additional security measures could include:
-- User-provided passwords for each Secret Santa event (instead of a hardcoded passphrase)
-- Server-side encryption with proper secret management
-- Time-limited links that expire after the reveal
-
-For this application's purpose (organizing friendly gift exchanges), the current security model provides adequate protection against casual snooping while keeping the implementation simple and fully client-side.
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
-
-Clone the repository and install dependencies.
-
-### Development
-
-Start the development server.
-
-### Building for Production
-
-Build the application for production deployment.
-
-### Testing
-
-Run the test suite.
-
-## Usage
-
-### Adding Participants
+### Step 1: Adding Participants
 
 1. Enter a participant's name in the input field
 2. Click "Add" or press Enter
-3. Repeat for all participants (minimum 3 required)
+3. Repeat for all participants (you need at least 3 people)
 
-### Creating Pre-assignments
+### Step 2: Creating Pre-assignments (Optional)
 
-Pre-assignments allow you to specify that certain people should give to certain other people:
+Want to make sure specific people are matched? You can set this up:
 
-1. Navigate to the "Pre-assignments" section
-2. Select a giver from the first dropdown
-3. Select a receiver from the second dropdown
+1. Go to the "Pre-assignments" section
+2. Select who should give (from the first dropdown)
+3. Select who they should give to (from the second dropdown)
 4. Click "Add Pre-assignment"
 
-The algorithm will respect these assignments when generating the complete list.
+The system will respect these pairings when creating the full assignment list.
 
-### Generating and Sharing Links
+### Step 3: Generating and Sharing Links
 
 1. Click "Generate Secret Santa Assignments"
-2. Unique encrypted links will be created for each participant
-3. Copy individual links or copy all links at once
-4. Share each link with the corresponding participant via email, messaging, etc.
+2. You'll get a unique encrypted link for each participant
+3. Copy individual links or copy all at once
+4. Send each person their own link via email, text, WhatsApp, etc.
 
-**Important**: Make sure each participant receives only their own link!
+**Important**: Make sure each person only gets their own link, not someone else's!
 
-### Revealing Assignments
+### Step 4: Revealing Assignments
 
-When a participant opens their link:
-1. They'll see a festive reveal page
-2. The page will display who they're buying a gift for
-3. The reveal happens instantly - no server calls required
+When someone opens their link:
+1. They'll see a festive page with their assignment
+2. It shows who they're buying a gift for
+3. That's it - the surprise is revealed instantly!
 
-## Project Structure
+## Features
+
+- ✅ Simple and intuitive - anyone can use it
+- 🌍 Works in 9 languages (English, Czech, German, Polish, French, Spanish, Italian, Russian, Portuguese)
+- 📱 Mobile-friendly - works on phones, tablets, and computers
+- 🔒 Encrypted links keep assignments secret
+- 🎯 Pre-assignments for when you want specific matches
+- ⚡ No sign-up, no downloads - just visit and use
+
+## About Security
+
+Your Secret Santa assignments are protected by encryption, so links can't be easily guessed. Here's what you should know:
+
+**Is it safe?**
+- The links are encrypted to prevent casual snooping
+- Someone would need your specific link to see an assignment
+- If someone gets a link, they can only see those two names (who gives and who receives)
+- Worst case: someone spoils the surprise - no sensitive information is at risk
+
+**What this means:**
+This is perfect for friendly gift exchanges among family, friends, or coworkers. The encryption keeps things fun and prevents accidental spoilers, but this isn't designed for highly sensitive data. Think of it like a sealed envelope - good enough for a game, but not a bank vault.
+
+**Technical note:** The app uses AES-GCM encryption with PBKDF2 key derivation. While the encryption keys are built into the app (making it possible for someone technical to decrypt if they really wanted to), it provides adequate protection for the use case - keeping holiday surprises fun!
+
+## For Developers
+
+### Getting Started
+
+**Prerequisites:**
+- Node.js (v18 or higher)
+- npm or yarn
+
+**Installation:**
+Clone the repository and install dependencies.
+
+**Development:**
+Start the development server.
+
+**Building:**
+Build the application for production deployment.
+
+**Testing:**
+Run the test suite.
+
+### Technology Stack
+
+- React 18 with TypeScript
+- React Router v7
+- Tailwind CSS v4
+- Vite build tool
+- Vitest for testing
+
+### Project Structure
 
 - `/src/components` - Reusable UI components
-- `/src/pages` - Main application pages (MainPage, RevealPage)
+- `/src/pages` - Main pages (MainPage, RevealPage)
 - `/src/utils` - Utility functions (encryption, assignment algorithm)
-- `/src/i18n` - Internationalization and translations
+- `/src/i18n` - Translations for 9 languages
 - `/src/types` - TypeScript type definitions
+
+### Technical Details: Encryption
+
+The application uses **AES-GCM** (Advanced Encryption Standard) encryption with:
+- 256-bit key length
+- PBKDF2 key derivation with 100,000 iterations
+- Random initialization vector (IV) for each link
+- Static salt for key derivation
+
+**Security considerations:**
+- The encryption passphrase and salt are hardcoded in the client-side code
+- Anyone with access to the source code could theoretically decrypt links
+- For improved security, consider: user-provided passwords per event, server-side encryption, or time-limited links
+
+For this use case (friendly gift exchanges), the current security model provides adequate protection while keeping the app simple and fully client-side.
 
 ## Contributing
 
-This is a personal/educational project. Feel free to fork and adapt for your own use.
+This is a personal/educational project. Feel free to fork and adapt for your own use!
 
 ## License
 
-This project is open source and available for personal and educational use.
+Open source and available for personal and educational use.
 
-## Acknowledgments
+---
 
-Built with festive cheer for making holiday gift exchanges more fun and organized! 🎁
+Built with festive cheer for making holiday gift exchanges more fun and organized! 🎅🎄🎁
