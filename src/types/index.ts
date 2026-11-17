@@ -8,3 +8,9 @@ export interface PreAssignment {
   giverId: string
   receiverId: string
 }
+
+export interface BlockedAssignment {
+  id: string
+  giverId: string
+  receiverId: string
+}
