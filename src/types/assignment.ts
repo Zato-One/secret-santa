@@ -9,6 +9,12 @@ export interface PreAssignment {
   receiverId: string;
 }
 
+export interface BlockedAssignment {
+  id: string;
+  giverId: string;
+  receiverId: string;
+}
+
 export interface Assignment {
   giverId: string;
   receiverId: string;

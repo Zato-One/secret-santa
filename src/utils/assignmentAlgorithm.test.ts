@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { generateAssignments } from './assignmentAlgorithm';
-import type { Participant, PreAssignment } from '../types/assignment';
+import type { Participant, PreAssignment, BlockedAssignment } from '../types/assignment';
 
 describe('assignmentAlgorithm', () => {
   describe('reciprocal pre-assignments', () => {
@@ -119,6 +119,37 @@ describe('assignmentAlgorithm', () => {
 
       expect(givers.size).toBe(5);
       expect(receivers.size).toBe(5);
+    });
+  });
+
+  describe('blocked assignments', () => {
+    it('should never generate a blocked pairing', () => {
+      const participants: Participant[] = ['a', 'b', 'c', 'd'].map(id => ({ id, name: id }));
+      const blocked: BlockedAssignment[] = [
+        { id: '1', giverId: 'a', receiverId: 'b' },
+        { id: '2', giverId: 'b', receiverId: 'c' },
+        { id: '3', giverId: 'c', receiverId: 'd' },
+        { id: '4', giverId: 'd', receiverId: 'a' }
+      ];
+
+      for (let i = 0; i < 50; i++) {
+        const result = generateAssignments(participants, [], blocked);
+        expect(result.success).toBe(true);
+        for (const a of result.assignments) {
+          expect(blocked.some(b => b.giverId === a.giverId && b.receiverId === a.receiverId)).toBe(false);
+        }
+      }
+    });
+
+    it('should fail when blocking makes assignment impossible', () => {
+      const participants: Participant[] = ['a', 'b', 'c'].map(id => ({ id, name: id }));
+      const blocked: BlockedAssignment[] = [
+        { id: '1', giverId: 'a', receiverId: 'b' },
+        { id: '2', giverId: 'a', receiverId: 'c' }
+      ];
+
+      const result = generateAssignments(participants, [], blocked);
+      expect(result.success).toBe(false);
     });
   });
 });

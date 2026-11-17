@@ -31,6 +31,15 @@ export interface Translations {
       noPreAssignments: string
       preAssignmentCount: string
     }
+    blockedAssignments: {
+      title: string
+      description: string
+      giverLabel: string
+      receiverLabel: string
+      addButton: string
+      noBlockedAssignments: string
+      blockedAssignmentCount: string
+    }
     generate: {
       button: string
       buttonGenerating: string
@@ -56,6 +65,9 @@ export interface Translations {
       duplicatePreAssignment: string
       giverAlreadyAssigned: string
       receiverAlreadyAssigned: string
+      duplicateBlocked: string
+      blockedIsPreAssigned: string
+      preAssignmentIsBlocked: string
       generationFailed: string
     }
   }

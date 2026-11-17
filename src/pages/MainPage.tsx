@@ -1,6 +1,6 @@
 import { useState, FormEvent, useRef, useEffect } from 'react'
-import { Layout, LanguageSelector } from '@/components'
-import { Participant, PreAssignment } from '@/types'
+import { Layout, LanguageSelector, BlockedAssignmentsSection } from '@/components'
+import { Participant, PreAssignment, BlockedAssignment } from '@/types'
 import { generateAssignments } from '@/utils/assignmentAlgorithm'
 import { generateRevealLink } from '@/utils/encryption'
 import type { GeneratedLink } from '@/types/assignment'
@@ -18,6 +18,7 @@ function MainPage() {
   const [inputName, setInputName] = useState('')
   const [error, setError] = useState('')
   const [preAssignments, setPreAssignments] = useState<PreAssignment[]>([])
+  const [blockedAssignments, setBlockedAssignments] = useState<BlockedAssignment[]>([])
   const [selectedGiverId, setSelectedGiverId] = useState('')
   const [selectedReceiverId, setSelectedReceiverId] = useState('')
   const [preAssignmentError, setPreAssignmentError] = useState('')
@@ -83,6 +84,9 @@ function MainPage() {
     setPreAssignments(preAssignments.filter(
       pa => pa.giverId !== id && pa.receiverId !== id
     ))
+    setBlockedAssignments(blockedAssignments.filter(
+      b => b.giverId !== id && b.receiverId !== id
+    ))
   }
 
   const handleInputChange = (value: string) => {
@@ -107,6 +111,14 @@ function MainPage() {
     )
     if (duplicateExists) {
       setPreAssignmentError(t.mainPage.errors.duplicatePreAssignment)
+      return
+    }
+
+    const isBlocked = blockedAssignments.some(
+      b => b.giverId === selectedGiverId && b.receiverId === selectedReceiverId
+    )
+    if (isBlocked) {
+      setPreAssignmentError(t.mainPage.errors.preAssignmentIsBlocked)
       return
     }
 
@@ -174,7 +186,7 @@ function MainPage() {
     setGeneratedLinks([])
 
     try {
-      const result = generateAssignments(participants, preAssignments)
+      const result = generateAssignments(participants, preAssignments, blockedAssignments)
 
       if (!result.success) {
         setGenerationError(result.error || t.mainPage.errors.generationFailed)
@@ -432,6 +444,14 @@ function MainPage() {
                     </ul>
                   </div>
                 )}
+
+                <BlockedAssignmentsSection
+                  participants={participants}
+                  preAssignments={preAssignments}
+                  blockedAssignments={blockedAssignments}
+                  onChange={setBlockedAssignments}
+                  t={t}
+                />
 
                 <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t-2 border-snow-200">
                   <button

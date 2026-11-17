@@ -1,13 +1,15 @@
 import type {
   Participant,
   PreAssignment,
+  BlockedAssignment,
   Assignment,
   AssignmentResult,
 } from '../types/assignment';
 
 export function generateAssignments(
   participants: Participant[],
-  preAssignments: PreAssignment[] = []
+  preAssignments: PreAssignment[] = [],
+  blockedAssignments: BlockedAssignment[] = []
 ): AssignmentResult {
   if (participants.length < 3) {
     return {
@@ -17,9 +19,13 @@ export function generateAssignments(
     };
   }
 
-  const maxRetries = 20;
+  const maxRetries = 500;
   for (let attempt = 0; attempt < maxRetries; attempt++) {
-    const result = attemptGeneration(participants, preAssignments);
+    const result = attemptGeneration(
+      participants,
+      preAssignments,
+      blockedAssignments
+    );
     if (result.success) {
       return result;
     }
@@ -28,13 +34,18 @@ export function generateAssignments(
   return {
     success: false,
     assignments: [],
-    error: 'Could not generate valid assignments after multiple attempts. Try removing some pre-assignments.',
+    error: 'Could not generate valid assignments after multiple attempts. Try removing some pre-assignments or avoided pairings.',
   };
+}
+
+function toPairSet(pairs: { giverId: string; receiverId: string }[]): Set<string> {
+  return new Set(pairs.map((p) => `${p.giverId}->${p.receiverId}`));
 }
 
 function attemptGeneration(
   participants: Participant[],
-  preAssignments: PreAssignment[]
+  preAssignments: PreAssignment[],
+  blockedAssignments: BlockedAssignment[]
 ): AssignmentResult {
   const assignments: Assignment[] = [];
   const assignedReceivers = new Set<string>();
@@ -63,6 +74,8 @@ function attemptGeneration(
     )
   );
 
+  const blockedPairs = toPairSet(blockedAssignments);
+
   const unassignedGivers = participants.filter(
     (p) => !assignedGivers.has(p.id)
   );
@@ -73,6 +86,7 @@ function attemptGeneration(
     const validReceivers = participants.filter((receiver) => {
       if (receiver.id === giver.id) return false;
       if (assignedReceivers.has(receiver.id)) return false;
+      if (blockedPairs.has(`${giver.id}->${receiver.id}`)) return false;
 
       const wouldCreateReciprocal =
         giverToReceiver.get(receiver.id) === giver.id;
@@ -119,7 +133,8 @@ function attemptGeneration(
   const validationError = validateAssignments(
     assignments,
     participants,
-    preAssignments
+    preAssignments,
+    blockedAssignments
   );
   if (validationError) {
     return {
@@ -138,7 +153,8 @@ function attemptGeneration(
 function validateAssignments(
   assignments: Assignment[],
   participants: Participant[],
-  preAssignments: PreAssignment[]
+  preAssignments: PreAssignment[],
+  blockedAssignments: BlockedAssignment[]
 ): string | null {
   if (assignments.length !== participants.length) {
     return 'Not all participants have assignments';
@@ -153,6 +169,13 @@ function validateAssignments(
 
   if (receivers.size !== participants.length) {
     return 'Some participants are not receivers';
+  }
+
+  const blockedPairs = toPairSet(blockedAssignments);
+  for (const assignment of assignments) {
+    if (blockedPairs.has(`${assignment.giverId}->${assignment.receiverId}`)) {
+      return `Avoided pairing detected: ${assignment.giverName} → ${assignment.receiverName}`;
+    }
   }
 
   for (const assignment of assignments) {
